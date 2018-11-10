@@ -1,8 +1,8 @@
 function plot_perl(mode)
 
-    str_1 = '~/Perl/MSU_algorithms/task_1/';
-    str_2 = '~/Perl/MSU_algorithms/task_2/';
-    str_3 = '~/Perl/MSU_algorithms/task_3/';
+    str_1 = './task_1/';
+    str_2 = './task_2/';
+    str_3 = './task_3/';
     
 if (mode == 1)
    
