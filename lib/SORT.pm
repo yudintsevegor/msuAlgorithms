@@ -47,63 +47,77 @@ sub quicksort {
 	
 	my $it_swap = 0;
 	my $it_compare = 0;
+	my @data;
+	my @result;
 
 	sub sort_alg {
-		my $L = shift @_;
-		my $R = shift @_;
-		$it_compare = shift @_;
-		$it_swap = shift @_;
-		my @array = @_;
+		my ($data, $array) = @_;
+		my $L = pop @$data;
+		my $R = pop @$data;
+		my $it_compare = pop @$data;
+		my $it_swap = pop @$data;
+
+		#my $L = pop @_;
+		#my $R = pop @_;
+		#my $it_compare = pop @_;
+		#my $it_swap = pop @_;
+		#my @array = @_;
 
 		my $i = $L;
 		my $j = $R;
 		my $w;
 
-		my $x = $array[($L + $R)/2];
-		while ($i < $j) {
-			while ($array[$i] < $x) {++$i; ++$it_compare;};
-			while ($x < $array[$j]) {--$j; ++$it_compare;};
+		my $x = @$array[($L + $R)/2];
+		while ($i <= $j) {
+			while (@$array[$i] < $x) {++$i; ++$it_compare;};
+			while ($x < @$array[$j]) {--$j; ++$it_compare;};
 			if ($i <= $j) {
-				$w = $array[$i];
-				$array[$i] = $array[$j];
-				$array[$j] = $w;
-				
+				$w = @$array[$i];
+				@$array[$i] = @$array[$j];
+				@$array[$j] = $w;
 				++$it_swap;
 				++$i;
 				--$j;
 			}
 		}
 		if ($L < $j) { 
-			unshift @array, $it_swap;
-			unshift @array, $it_compare;
-			unshift @array, $j;
-			unshift @array, $L;
+			#say "LEFT";
+			push @$data, $it_swap;
+			push @$data, $it_compare;
+			push @$data, $j;
+			push @$data, $L;
 			
-			@array = sort_alg(@array)
+			($it_swap, $it_compare, @$array) = sort_alg(\@$data, \@$array)
 		};
 	
 		if ($i < $R) { 
-			unshift @array, $it_swap;
-			unshift @array, $it_compare;
-			unshift @array, $R;
-			unshift @array, $i;
+			#say "RIGHT";
+			push @$data, $it_swap;
+			push @$data, $it_compare;
+			push @$data, $R;
+			push @$data, $i;
 			
-			@array = sort_alg(@array);
+			($it_swap, $it_compare, @$array) = sort_alg(\@$data, \@$array);
 		};
-		unshift @array, $it_swap;
-		unshift @array, $it_compare;
 
-		return @array;
+		#push @array, $it_swap;
+		#push @array, $it_compare;
+		
+		return $it_swap, $it_compare, @$array;
 	};
+	push @data, $it_swap;
+	push @data, $it_compare;
+	push @data, ($len - 1);
+	push @data, 0;
 
-	unshift @array, $it_swap;
-	unshift @array, $it_compare;
-	unshift @array, ($len - 1);
-	unshift @array, 0;
+	#push @array, $it_swap;
+	#push @array, $it_compare;
+	#push @array, ($len - 1);
+	#push @array, 0;
 
-	my (@result) = sort_alg(@array);
-	$it_compare = shift @result;
-	$it_swap = shift @result;
+	($it_swap, $it_compare, @result) = sort_alg(\@data, \@array);
+	#$it_compare = pop @result;
+	#$it_swap = pop @result;
 	
 	return $it_swap, $it_compare, @result;
 
@@ -144,7 +158,7 @@ sub heapsort {
 	my @array = @{ $self->{ data }};
 	my $len =  scalar @array;
 	my $it = 0;
-	my $L = $len / 2;
+	my $L = ($len - 1) / 2;
 	my $R = $len - 1;
 	my @data;
 	my $x;
@@ -180,8 +194,8 @@ sub heapsort {
 		my ($ItLR, $arrayToSift) = @_;
 		my $it_compare = pop @$ItLR;
 		my $it_swap = pop @$ItLR;
-		my $L = shift @$ItLR;
 		my $R = shift @$ItLR;
+		my $L = shift @$ItLR;
 		my $i = $L;
 		my $j = 2*$i + 1;
 		my $x = @$arrayToSift[$i];
@@ -190,11 +204,14 @@ sub heapsort {
 			$j++;
 		}
 		$it_compare++;
+
 		while ( ($j <= $R) && ($x < @$arrayToSift[$j]) ) {
 			$it_compare++;
 			@$arrayToSift[$i] = @$arrayToSift[$j];
 			$i = $j;
 			$j = 2*$j + 1;
+			say "X: ".$x;
+			say "a[j]".@$arrayToSift[$j];
 			$it_swap++;
 
 			$it_compare++;

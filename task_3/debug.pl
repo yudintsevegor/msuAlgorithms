@@ -23,6 +23,30 @@
 
 		return $x, @array[1..scalar @_ - 1];
 	}
+	sub creation{
+		my $runs = pop @_;
+		my $mode = pop @_;
+		my @array = @_;
+		my $len = scalar @array;
+		my $i;
+		my $j;
+		my $x;
+		p @array;
+		p $runs;
+		p $mode;
+
+		for ( $i = 0; $i < $runs; $i++){
+			for ($j = $len - 1; $j > $i; $j-- ){
+				if ($array[$j-1] > $array[$j]){
+					$x = $array[$j - 1];
+					$array[$j - 1] =$array[$j];
+					$array[$j] = $x;
+				}
+			}
+		}
+		return @array[0..scalar @_ - 1];
+	}
+
 
 	my $c = 0;
 	my $mode;
@@ -52,31 +76,4 @@
 		++$c;
 	}
 	
-	my $c = 0;
-	my @add;
-	my $el;
-	my @data;
-	my @result = @array;	
-
-	while ( $c < scalar @array){
-		$mode = 2;
-		unshift @result, $mode;
-		($el, @result) = creation(@result);
-		
-		say "EL: ".$el;
-		push (@add, $el);
-		@data = (@add, @result);
-		p @data;
-
-		my $object = SORT->new(
-			data	=>	[@data],
-		);
-		
-		my ($it_swap, $it_compare, @answer_sel) = $object->selection;
-		#p @answer_sel;
-		#my @answer_qs = $object->quicksort;
-		#p @answer_qs;
-	
-		++$c;
-	}
 

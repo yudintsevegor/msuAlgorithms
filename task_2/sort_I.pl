@@ -20,10 +20,10 @@ GetOptions(
 
 my $filename;
 my $points = 10;
-#my @array = (44, 55, 12, 42, 94 ,18 , 06, 67); 
-#my @array = (06, 12, 18, 42, 44, 55, 67, 94);
-#@array = reverse @array; 
-my @data = map{ int(rand(100)) } (1..4048);
+#my @data = (44, 55, 12, 42, 94 ,18 , 06, 67); 
+#my @data = (06, 12, 18, 42, 44, 55, 67, 94);
+#@data = reverse @data; 
+my @data = map{ int(rand(100)) } (1..300);
 
 my @swapPointsIns;
 my @comparePointsIns;
@@ -34,18 +34,89 @@ my @order;
 
 
 if ( $fm == 1) {
-	
-	my @array = @data;
-	my $object = SORT->new(
-		data	=>	[@array],
-	);
+	$filename = "fix_massive";
+	my $runs = 0;
+	my $x;
+	my $len = scalar @data;
+	my @dataToOrder = @data;
+	my @dataToUnOrder = reverse @data;
+	while ( $runs < $len ){
+		if ( $runs != 0 ) {
+			for ( my $i = 0; $i < 1; $i++){
+				for (my $j = $len - 1; $j > $i; $j-- ){
+					if ( ($dataToOrder[$j-1] > $dataToOrder[$j])){
+						$x = $dataToOrder[$j - 1];
+						$dataToOrder[$j - 1] = $dataToOrder[$j];
+						$dataToOrder[$j] = $x;
+					}
+				}
+			}
+		}
+		for ( my $i = 0; $i < $runs; $i++){
+			for (my $j = $len - 1; $j > $i; $j-- ){
+				if ( ($dataToUnOrder[$j-1] < $dataToUnOrder[$j]) ){
+					$x = $dataToUnOrder[$j - 1];
+					$dataToUnOrder[$j - 1] = $dataToUnOrder[$j];
+					$dataToUnOrder[$j] = $x;
+				}
 
-	my ($it_swapIns, $it_compareIns, @answer_ins) = $object->insertion;
-	p @answer_ins;
+			}
+		}
+		#say @dataToOrder;
+		#say @dataToUnOrder;
+		my $objectOrder = SORT->new(
+			data	=>	[@dataToOrder],
+		);
 
-	my ($it_swapHs, $it_compareHs, @answer_hs) = $object->heapsort;
-	p @answer_hs;
+		my $objectUnorder = SORT->new(
+			data	=>	[@dataToUnOrder],
+		);
+		my ($it_swapInsOrder, $it_compareInsOrder, @answer_InsOrder) = $objectOrder->insertion;
+		#p @answer_;
+		#say "SWAP: ".$it_swapSel;
+		#say "COMPARE: ".$it_compareSel;
+
+		my ($it_swapHSOrder, $it_compareHSOrder, @answer_hsOrder) = $objectOrder->heapsort;
+		#p @answer_hsOrder;
+		say "SWAP: ".$it_swapHSOrder;
+		say "COMPARE: ".$it_compareHSOrder;
+		
+		my ($it_swapInsUnorder, $it_compareInsUnorder, @answer_insUnorder) = $objectUnorder->insertion;
+		#p @answer_sel;
+		#say "SWAP: ".$it_swapSel;
+		#say "COMPARE: ".$it_compareSel;
+
+		my ($it_swapHSUnorder, $it_compareHSUnorder, @answer_hsUnorder) = $objectUnorder->heapsort;
+		#p @answer_qs;
+		say "SWAP: ".$it_swapHSUnorder;
+		say "COMPARE: ".$it_compareHSUnorder;
+
+		push @order, $runs;
+		push @swapPointsIns, $it_swapInsOrder;
+		push @swapPointsHS, $it_swapHSOrder;
+		push @comparePointsIns, $it_compareInsOrder;
+		push @comparePointsHS, $it_compareHSOrder;
+
+		if ($runs != 0) {
+			unshift @order, 0-$runs;
+			unshift @swapPointsIns, $it_swapInsUnorder;
+			unshift @swapPointsHS, $it_swapHSUnorder;
+			unshift @comparePointsIns, $it_compareInsUnorder;
+			unshift @comparePointsHS, $it_compareHSUnorder;
+		}
+		$runs++;
+	}
+	#say "Order";
+	#p @order;
 	
+	#say "sw Ins";
+	#p @swapPointsIns;
+	#say "sw HS";
+	#p @swapPointsHS;
+	#say "com ins";
+	#p @comparePointsIns;
+	#say "com HS";
+	#p @comparePointsHS;
 	
 } elsif ($fo == 1) {	
 	my $counter = 0;
