@@ -124,13 +124,12 @@ sub insertion {
 		$x = $array[$i];
 		LOOP:
 		while ( $j > 0 ) {
+			++$it_compare;
 			if ($x <= $array[$j - 1]) {
 				$array[$j] = $array[$j - 1];
 				++$it_swap;
 				--$j;
-				++$it_compare;
 			} else {
-				++$it_compare;
 				last LOOP;		
 			}
 		}
@@ -152,17 +151,15 @@ sub heapsort {
 	my $it_swap = 0;
 	my $it_compare = 0;
 
-	push @data, $L;
-	push @data, $R;
-
 	while ( $L > 0){
 		--$L;
 		
-		$data[0] = $L;
-		unshift @data, $it_swap;
-		unshift @data, $it_compare;
-		($it_swap, $it_compare) = sift(@data);
-		#sift(@data);
+		push @data, $L;
+		push @data, $R;
+		push @data, $it_swap;
+		push @data, $it_compare;
+		($it_swap, $it_compare) = sift(\@data, \@array);
+		
 	}
 	
 	while ( $R > 0) {
@@ -172,50 +169,44 @@ sub heapsort {
 		$R--;
 		$it_swap++;
 	
-		$data[1] = $R;
-		unshift @data, $it_swap;
-		unshift @data, $it_compare;
-		($it_swap, $it_compare) = sift(@data);
-		#sift(@data);
+		push @data, $L;
+		push @data, $R;
+		push @data, $it_swap;
+		push @data, $it_compare;
+		($it_swap, $it_compare, @array) = sift(\@data, \@array);
 	}
 
 	sub sift{
-		my $it_compare = shift @_;
-		my $it_swap = shift @_;
-		my $L = shift @_;
-		my $R = shift @_;
+		my ($ItLR, $arrayToSift) = @_;
+		my $it_compare = pop @$ItLR;
+		my $it_swap = pop @$ItLR;
+		my $L = shift @$ItLR;
+		my $R = shift @$ItLR;
 		my $i = $L;
 		my $j = 2*$i + 1;
-		my $x = $array[$i];
+		my $x = @$arrayToSift[$i];
 		
-		if ( ( $j < $R ) && ( $array[$j] < $array[$j + 1] ) ){
+		if ( ( $j < $R ) && ( @$arrayToSift[$j] < @$arrayToSift[$j + 1] ) ){
 			$j++;
 		}
 		$it_compare++;
-		LOOP:
-		while ($j <= $R) {
-			if ($x < $array[$j]){ 
-				$array[$i] = $array[$j];
-				$i = $j;
-				$j = 2*$j + 1;
-				$it_compare++;
-				$it_swap++;
-			
-				if ( ($j < $R ) && ( $array[$j] < $array[$j + 1]) ){
-					$j++;
-				}
-				$it_compare++;
-			} else {	
-				$it_compare++;
-				last LOOP;
+		while ( ($j <= $R) && ($x < @$arrayToSift[$j]) ) {
+			$it_compare++;
+			@$arrayToSift[$i] = @$arrayToSift[$j];
+			$i = $j;
+			$j = 2*$j + 1;
+			$it_swap++;
+
+			$it_compare++;
+			if ( ($j < $R ) && ( @$arrayToSift[$j] < @$arrayToSift[$j + 1]) ){
+				$j++;
 			}
 		}
-		$array[$i] = $x;
-		
-		return $it_swap, $it_compare;
+		@$arrayToSift[$i] = $x;
+		return $it_swap, $it_compare, @$arrayToSift;
 	}	
-	
-	return $it_swap, $it_compare, @array;
+	my @result = @array;	
+	return $it_swap, $it_compare, @result;
 }
 
 1;

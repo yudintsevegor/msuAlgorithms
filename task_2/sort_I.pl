@@ -8,6 +8,7 @@ Getopt::Long::Configure ('bundling');
 use FindBin;
 use lib "$FindBin::Bin/../lib", glob("$FindBin::Bin/../*/lib*"),;
 use SORT;
+use GRAPH;
 
 my $fm = 0;
 my $fo = 0;
@@ -17,12 +18,20 @@ GetOptions(
 	"fo|fixed_order"	=> \$fo,
 );
 
-
-my $points = 5;
+my $filename;
+my $points = 10;
 #my @array = (44, 55, 12, 42, 94 ,18 , 06, 67); 
 #my @array = (06, 12, 18, 42, 44, 55, 67, 94);
 #@array = reverse @array; 
-my @data = map{ int(rand(100)) } (1..64);
+my @data = map{ int(rand(100)) } (1..4048);
+
+my @swapPointsIns;
+my @comparePointsIns;
+my @swapPointsHS;
+my @comparePointsHS;
+my @lenth;
+my @order;
+
 
 if ( $fm == 1) {
 	
@@ -40,19 +49,16 @@ if ( $fm == 1) {
 	
 } elsif ($fo == 1) {	
 	my $counter = 0;
-	my @swapPointsIns;
-	my @comparePointsIns;
-	my @swapPointsHS;
-	my @comparePointsHS;
-	my @lenth;
-
+	$filename ="fix_order";
 	while ($counter <= $points ) {
 		my @array = @data[0..(scalar @data - 1)/2**$counter];
+		#p @array;
 		my $object = SORT->new(
 				data	=>	[@array],
-				);
+		);
 
 		my ($it_swapIns, $it_compareIns, @answer_ins) = $object->insertion;
+		#say "INS";
 		#p @answer_ins;
 		#say "SWAP: ".$it_swapIns;
 		#say "COMPARE: ".$it_compareIns;
@@ -83,4 +89,17 @@ if ( $fm == 1) {
 
 } 
 
+my $object = GRAPH->new(
+		compareIns	=>	[@comparePointsIns],
+		compareHS	=>	[@comparePointsHS],
+		swapIns		=>	[@swapPointsIns],
+		swapHS		=>	[@swapPointsHS],
+		lenth		=>	[@lenth],
+		order		=>	[@order],
+		sig_fo		=>	$fo,	
+		sig_fm		=>	$fm,
+		task		=>	"task_2",
+		name		=>	$filename,
+		);
+$object->plot;	
 
