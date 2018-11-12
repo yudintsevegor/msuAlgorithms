@@ -41,7 +41,6 @@ elseif (mode == 2)
 
 	fig = figure(1);
 	%plot(X, Y_1, "*",X, Y_2, "o");
-    %plot(X, Y_1, X, Y_2);
 	plot(X, log(Y_1), X, log(Y_2));
 	title('The dependence of the number of operations on the length of the string at a fixed order')
 	xlabel('Lenth of the massive')
@@ -56,8 +55,8 @@ elseif (mode == 2)
 
 	fig = figure(2);
 	%plot(X, Y_1, "*",X, Y_2, "o");
-	%plot(X, Y_1, X, Y_2);
-    plot(X, log(Y_1), X, log(Y_2));
+	plot(X, Y_1, X, Y_2);
+    %plot(X, log(Y_1), X, log(Y_2));
 	title('The dependence of the number of operations on the length of the massive at a fixed order')
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(compare)')

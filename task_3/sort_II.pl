@@ -25,9 +25,9 @@ my $points = 1;
 #@data = reverse @data; 
 #my @data = (06, 12, 18, 42, 43, 44, 56 ,66, 67, 68, 69, 70, 72, 75, 222, 555, 678, 888, 999);
 #@data = reverse @data; 
-my @data = map{ int(rand(1000)) } (1..18);
+my @data = map{ int(rand(10000)) } (1..2000);
 #say "INIT ARRAY";
-#p @data; 
+#say join(" ",@data); 
 my $filename;
 my @swapPointsSel;
 my @comparePointsSel;
@@ -43,7 +43,7 @@ if ( $fm == 1) {
 	my $len = scalar @data;
 	my @dataToOrder = @data;
 	my @dataToUnOrder = @data;
-	
+
 	while ( $runs < $len ){
 		if ( $runs != 0 ) {
 			for ( my $i = 0; $i < 1; $i++){
@@ -55,33 +55,21 @@ if ( $fm == 1) {
 					}
 				}
 			}
-		}
-		p @dataToOrder;
-=begin		
-		my $object = SORT->new(
-			data	=>	[@dataToOrder],
-		);
-		my ($it_swapSel, $it_compareSel, @answer_sel) = $object->selection;
-		#p @answer_sel;
-		#say "SWAP: ".$it_swapSel;
-		#say "COMPARE: ".$it_compareSel;
+			for ( my $i = 0; $i < 1; $i++){
+				for (my $j = $len - 1; $j > $i; $j-- ){
+					if ( ($dataToUnOrder[$j-1] < $dataToUnOrder[$j]) ){
+						$x = $dataToUnOrder[$j - 1];
+						$dataToUnOrder[$j - 1] = $dataToUnOrder[$j];
+						$dataToUnOrder[$j] = $x;
+					}
 
-		my ($it_swapQS, $it_compareQS, @answer_qs) = $object->quicksort;
-		#p @answer_qs;
-		#say "SWAP: ".$it_swapQS;
-		#say "COMPARE: ".$it_compareQS;
-=cut		
-		for ( my $i = 0; $i < $runs; $i++){
-			for (my $j = $len - 1; $j > $i; $j-- ){
-				if ( ($dataToUnOrder[$j-1] < $dataToUnOrder[$j]) ){
-					$x = $dataToUnOrder[$j - 1];
-					$dataToUnOrder[$j - 1] = $dataToUnOrder[$j];
-					$dataToUnOrder[$j] = $x;
-				}
-
+				}	
 			}
 		}
-		#p @dataToUnOrder;
+		#say "Order";
+		#say join(" ", @dataToOrder);
+		#say "UnOrder";
+		#say join(" ", @dataToUnOrder);
 	
 		my $objectOrder = SORT->new(
 			data	=>	[@dataToOrder],
@@ -91,23 +79,24 @@ if ( $fm == 1) {
 			data	=>	[@dataToUnOrder],
 		);
 		my ($it_swapSelOrder, $it_compareSelOrder, @answer_selOrder) = $objectOrder->selection;
-		#p @answer_sel;
-		#say "SWAP: ".$it_swapSel;
+		#say "SWAP Order: ".$it_swapSelOrder;
+		#say join(" ", @answer_selOrder);
 		#say "COMPARE: ".$it_compareSel;
 
 		my ($it_swapQSOrder, $it_compareQSOrder, @answer_qsOrder) = $objectOrder->quicksort;
-		#p @answer_qs;
-		#say "SWAP: ".$it_swapQS;
+		#say "Result ";
+		#say join(" ", @answer_qsOrder);
+		say "SWAP Order: ".$it_swapQSOrder;
 		#say "COMPARE: ".$it_compareQS;
 		
 		my ($it_swapSelUnorder, $it_compareSelUnorder, @answer_selUnorder) = $objectUnorder->selection;
-		#p @answer_sel;
-		#say "SWAP: ".$it_swapSel;
+		#say "SWAP Unorder: ".$it_swapSelUnorder;
+		#say join(" ", @answer_selUnorder);
 		#say "COMPARE: ".$it_compareSel;
 
 		my ($it_swapQSUnorder, $it_compareQSUnorder, @answer_qsUnorder) = $objectUnorder->quicksort;
-		#p @answer_qs;
-		#say "SWAP: ".$it_swapQS;
+		#say join(" ", @answer_qsUnorder);
+		say "SWAP unorder: ".$it_swapQSUnorder;
 		#say "COMPARE: ".$it_compareQS;
 
 		push @order, $runs;
@@ -125,44 +114,8 @@ if ( $fm == 1) {
 		}
 		$runs++;
 	}
-=begin
-	$runs = 1;
-	while ( $runs < $len ){
-		for ( my $i = 0; $i < $runs; $i++){
-			for (my $j = $len - 1; $j > $i; $j-- ){
-				if ( ($dataToUnOrder[$j-1] < $dataToUnOrder[$j]) ){
-					$x = $dataToUnOrder[$j - 1];
-					$dataToUnOrder[$j - 1] = $dataToUnOrder[$j];
-					$dataToUnOrder[$j] = $x;
-				}
-
-			}
-		}
-		#p @dataToUnOrder;
-		my $object = SORT->new(
-			data	=>	[@dataToUnOrder],
-		);
-		my ($it_swapSel, $it_compareSel, @answer_sel) = $object->selection;
-		#p @answer_sel;
-		#say "SWAP: ".$it_swapSel;
-		#say "COMPARE: ".$it_compareSel;
-
-		my ($it_swapQS, $it_compareQS, @answer_qs) = $object->quicksort;
-		#p @answer_qs;
-		#say "SWAP: ".$it_swapQS;
-		#say "COMPARE: ".$it_compareQS;
-		
-		push @order, $runs;
-		push @swapPointsSel, $it_swapSel;
-		push @swapPointsQS, $it_swapQS;
-		push @comparePointsSel, $it_compareSel;
-		push @comparePointsQS, $it_compareQS;
-
-		++$runs;
-	}
-=cut
 	#say "Order";
-	p @order;
+	#p @order;
 	
 	#say "sw Sel";
 	#p @swapPointsSel;
@@ -188,7 +141,7 @@ if ( $fm == 1) {
 		#say "COMPARE: ".$it_compareSel;
 
 		my ($it_swapQS, $it_compareQS, @answer_qs) = $object->quicksort;
-		p @answer_qs;
+		#p @answer_qs;
 		#say "SWAP: ".$it_swapQS;
 		#say "COMPARE: ".$it_compareQS;
 		$counter++;
@@ -203,12 +156,12 @@ if ( $fm == 1) {
 	#p @lenth;
 	#say "SWAP SEL:";
 	#p @swapPointsSel;
-	say "SWAP QS:";
-	p @swapPointsQS;
+	#say "SWAP QS:";
+	#p @swapPointsQS;
 	#say "Compare SEL:";
 	#p @comparePointsSel;
-	say "Compare QS:";
-	p @comparePointsQS;
+	#say "Compare QS:";
+	#p @comparePointsQS;
 
 } 
 my $object = GRAPH->new(

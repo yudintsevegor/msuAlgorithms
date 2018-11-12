@@ -90,6 +90,8 @@ sub plot {
 		}
 		close $fh1;
 		close $fh2;
+		close $fh3;
+		close $fh4;
 	} elsif ($self->{task} eq "task_3") {
 		if ( $self->{sig_fo} == 1){
 			@X = @{ $self->{lenth} };
@@ -125,6 +127,8 @@ sub plot {
 		}
 		close $fh1;
 		close $fh2;
+		close $fh3;
+		close $fh4;
 	}
 }
 1;

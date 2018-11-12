@@ -17,26 +17,28 @@ sub selection {
 	my $i = 0;
 	my $it_swap = 0;
 	my $it_compare = 0;
-	
+
 	while ($i <= $len - 2) {
 		my $k = $i;
 		my $x = $array[$i];
 		my $j = $i + 1;
 		while ($j <= $len - 1) {
+			$it_compare++;
 			if ( $array[$j] < $x) {
 				$k = $j;
 				$x = $array[$k];
 				++$it_swap;
 			}
-			++$it_compare;
 			++$j;
 		}
 		$array[$k] = $array[$i];
-		++$it_swap;
 		$array[$i] = $x;
 		++$it_swap;
 		++$i; 
 	}
+	#say "END: ";
+	#say join(" ", @array);
+	#say $it_swap;	
 	return $it_swap, $it_compare, @array;
 }
 
@@ -136,16 +138,16 @@ sub insertion {
 	while( $i <= $len - 1){
 		$j = $i;
 		$x = $array[$i];
-		LOOP:
-		while ( $j > 0 ) {
+		#LOOP:
+		while ( ( $j > 0 ) && ($x <= $array[$j - 1]) ){
 			++$it_compare;
-			if ($x <= $array[$j - 1]) {
+			#if ($x <= $array[$j - 1]) {
 				$array[$j] = $array[$j - 1];
 				++$it_swap;
 				--$j;
-			} else {
-				last LOOP;		
-			}
+			#} else {
+			#	last LOOP;		
+			#}
 		}
 		$array[$j] = $x;
 		$i++;
@@ -158,7 +160,7 @@ sub heapsort {
 	my @array = @{ $self->{ data }};
 	my $len =  scalar @array;
 	my $it = 0;
-	my $L = ($len - 1) / 2;
+	my $L = ($len) / 2;
 	my $R = $len - 1;
 	my @data;
 	my $x;
@@ -194,8 +196,9 @@ sub heapsort {
 		my ($ItLR, $arrayToSift) = @_;
 		my $it_compare = pop @$ItLR;
 		my $it_swap = pop @$ItLR;
-		my $R = shift @$ItLR;
-		my $L = shift @$ItLR;
+		my $R = pop @$ItLR;
+		my $L = pop @$ItLR;
+		
 		my $i = $L;
 		my $j = 2*$i + 1;
 		my $x = @$arrayToSift[$i];
@@ -210,8 +213,8 @@ sub heapsort {
 			@$arrayToSift[$i] = @$arrayToSift[$j];
 			$i = $j;
 			$j = 2*$j + 1;
-			say "X: ".$x;
-			say "a[j]".@$arrayToSift[$j];
+			#say "X: ".$x;
+			#say "a[j]".@$arrayToSift[$j];
 			$it_swap++;
 
 			$it_compare++;
@@ -220,9 +223,12 @@ sub heapsort {
 			}
 		}
 		@$arrayToSift[$i] = $x;
+		#say join(" ", @$arrayToSift);
 		return $it_swap, $it_compare, @$arrayToSift;
 	}	
 	my @result = @array;	
+	#say "RESULT: ";
+	#say join(" ", @result);
 	return $it_swap, $it_compare, @result;
 }
 

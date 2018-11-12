@@ -35,6 +35,7 @@ sub brute_force {
 			$str = "NOT FOUND";
 			$i++;
 			$j = 0;
+		
 		}
 		#++$offset;
 		$it++;	
@@ -72,6 +73,7 @@ sub boyer_moore {
 		$D[$i] = $M;
 		$i++;
 	}
+
 	while ($j <= $M - 2) {
 		$D[ ord($sample[$j]) ] = $M - $j - 1;
 		$j++;
@@ -100,7 +102,7 @@ sub boyer_moore {
 		$r = -1;
 	}
 	
-	my @answer = ($it, $r);;
+	my @answer = ($it, $r);
 	return @answer;
 
 }
