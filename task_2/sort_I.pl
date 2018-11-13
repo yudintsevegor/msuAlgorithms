@@ -23,7 +23,7 @@ my $points = 100;
 #my @data = (44, 55, 12, 42, 94 ,18 , 06, 67); 
 #my @data = (06, 12, 18, 42, 44, 55, 67, 94);
 #@data = reverse @data; 
-my @data = map{ int(rand(100)) } (1..1000);
+my @data = map{ int(rand(100000)) } (1..4000);
 
 my @swapPointsIns;
 my @comparePointsIns;

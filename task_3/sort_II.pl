@@ -9,6 +9,7 @@ use FindBin;
 use lib "$FindBin::Bin/../lib", glob("$FindBin::Bin/../*/lib*"),;
 use SORT;
 use GRAPH;
+use Time::HiRes qw(gettimeofday tv_interval);
 
 my $fm = 0;
 my $fo = 0;
@@ -25,7 +26,7 @@ my $points = 1;
 #@data = reverse @data; 
 #my @data = (06, 12, 18, 42, 43, 44, 56 ,66, 67, 68, 69, 70, 72, 75, 222, 555, 678, 888, 999);
 #@data = reverse @data; 
-my @data = map{ int(rand(10000)) } (1..2000);
+my @data = map{ int(rand(10**100)) } (1..499);
 #say "INIT ARRAY";
 #say join(" ",@data); 
 my $filename;
@@ -36,11 +37,17 @@ my @comparePointsQS;
 my @lenth;
 my @order;
 
+my $start_time;
+my $end_time;
+my $elapsed;
+my @time;
+
 if ( $fm == 1) {
 	$filename = "fix_massive";
 	my $runs = 0;
 	my $x;
 	my $len = scalar @data;
+
 	my @dataToOrder = @data;
 	my @dataToUnOrder = @data;
 
@@ -66,10 +73,11 @@ if ( $fm == 1) {
 				}	
 			}
 		}
+
 		#say "Order";
-		#say join(" ", @dataToOrder);
+		#say "Order:   ".join(" ", @dataToOrder);
 		#say "UnOrder";
-		#say join(" ", @dataToUnOrder);
+		#say "UnOrder: ".join(" ", @dataToUnOrder);
 	
 		my $objectOrder = SORT->new(
 			data	=>	[@dataToOrder],
@@ -83,10 +91,16 @@ if ( $fm == 1) {
 		#say join(" ", @answer_selOrder);
 		#say "COMPARE: ".$it_compareSel;
 
+		#say "runs ".$runs;
+		#say join(" ", @dataToOrder);
+		$start_time = [gettimeofday];
 		my ($it_swapQSOrder, $it_compareQSOrder, @answer_qsOrder) = $objectOrder->quicksort;
+		$end_time = [gettimeofday];
+		$elapsed = tv_interval($start_time, $end_time);
+		say $elapsed;	
 		#say "Result ";
 		#say join(" ", @answer_qsOrder);
-		say "SWAP Order: ".$it_swapQSOrder;
+		#say "SWAP Order: ".$it_swapQSOrder;
 		#say "COMPARE: ".$it_compareQS;
 		
 		my ($it_swapSelUnorder, $it_compareSelUnorder, @answer_selUnorder) = $objectUnorder->selection;
@@ -94,26 +108,67 @@ if ( $fm == 1) {
 		#say join(" ", @answer_selUnorder);
 		#say "COMPARE: ".$it_compareSel;
 
+		#say "runs ".$runs;
+		#say join(" ", @dataToUnOrder);
+		$start_time = [gettimeofday];
 		my ($it_swapQSUnorder, $it_compareQSUnorder, @answer_qsUnorder) = $objectUnorder->quicksort;
+		$end_time = [gettimeofday];
+		$elapsed = tv_interval($start_time, $end_time);
+		say $elapsed;	
+		#say "Result ";
 		#say join(" ", @answer_qsUnorder);
-		say "SWAP unorder: ".$it_swapQSUnorder;
+		#say "SWAP Unorder: ".$it_swapQSUnorder;
 		#say "COMPARE: ".$it_compareQS;
-
+#=begin
+		push @time, $elapsed;
 		push @order, $runs;
 		push @swapPointsSel, $it_swapSelOrder;
 		push @swapPointsQS, $it_swapQSOrder;
 		push @comparePointsSel, $it_compareSelOrder;
 		push @comparePointsQS, $it_compareQSOrder;
-
+#=cut
 		if ($runs != 0) {
+			unshift @time, $elapsed;
 			unshift @order, 0-$runs;
 			unshift @swapPointsSel, $it_swapSelUnorder;
 			unshift @swapPointsQS, $it_swapQSUnorder;
 			unshift @comparePointsSel, $it_compareSelUnorder;
 			unshift @comparePointsQS, $it_compareQSUnorder;
 		}
+#=cut
 		$runs++;
 	}
+	#say join(" ", @swapPointsQS);
+	#say join(" ", @comparePointsQS);
+	#say join(" ", @time);
+	#say join(" ", @order);
+#=begin	
+	my @oper;
+	foreach my $i (0..scalar @swapPointsQS - 1){
+		#my $el = $swapPointsQS[$i] + $comparePointsQS[$i];
+		#my $el = $comparePointsQS[$i];
+		#my $el = $swapPointsQS[$i];
+		push @oper, $swapPointsQS[$i] + $comparePointsQS[$i];
+		#push @oper, $el;
+	}
+	#@oper = reverse @oper;
+	#say join(" ", @oper);
+	#say scalar @oper;
+	#say join(" ", @swapPointsQS);
+	#say scalar @swapPointsQS;
+	
+	open(my $tm, ">", "./points/Time.txt") or die $!;
+	foreach my $i(0..scalar @time - 1){
+		say $tm $time[$i];
+		#say $fh $oper[$i];
+	}
+	
+	open(my $fh, ">", "./points/Operations.txt") or die $!;
+	foreach my $i(0..scalar @oper - 1){
+		say $fh $swapPointsQS[$i] + $comparePointsQS[$i];
+		#say $fh $oper[$i];
+	}
+#=cut
 	#say "Order";
 	#p @order;
 	

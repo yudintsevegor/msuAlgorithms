@@ -2,6 +2,7 @@
 
 package GRAPH;
  
+use 5.016;
 use strict;
 #use GD::Graph::linespoints;
 use DDP;
@@ -17,11 +18,11 @@ sub plot {
 	my ($self) = @_;
 	my @X;
 	#p $self;
-	my %dir = {
-		task_1	=> "/home/yudintsev/Perl/MSU_algorithms/task_1/",
-		task_2	=> "/home/yudintsev/Perl/MSU_algorithms/task_2/",
-		task_3	=> "/home/yudintsev/Perl/MSU_algorithms/task_3/",
-	};
+	my %dir = (
+		task_1	=> "/home/yudintsevegor/Perl/MSU_algorithms/task_1/points/",
+		task_2	=> "/home/yudintsevegor/Perl/MSU_algorithms/task_2/points/",
+		task_3	=> "/home/yudintsevegor/Perl/MSU_algorithms/task_3/points/",
+	);
 
 	if ($self->{task} eq "task_1") {
 		if ( $self->{sig_ft} == 1){
@@ -106,7 +107,6 @@ sub plot {
 		my @Y_swapSel = @{ $self->{swapSel} };
 
 		my $filename = $dir{task_3}.$self->{name};
-	
 		open(my $fh, ">", $filename."_X.txt") or die $!;
 		
 		foreach (@X){

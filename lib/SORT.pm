@@ -45,84 +45,103 @@ sub selection {
 sub quicksort {
 	my ($self) = @_;
 	my @array = @{ $self->{ data } };
+	
+	my @low;
+	my @hight;
+	my $i;
+	my $j;
+	my $L;
+	my $R;
+	my $x;
+	my $it_swap = 0;
+	my $it_compare = 0;
+	my $w;
+
+	my $len = scalar @array;
+	my $s = 0;
+	$low[0] = 0;
+	$hight[0] = $len - 1;
+	while ( $s >= 0) {
+		$L = $low[$s];
+		$R = $hight[$s];
+		$s--;	
+		while ( $L < $R){
+			$i = $L;
+			$j = $R;
+			$x = $array[( $L + $R )/2 ];
+			while( $i < $j) {
+				$it_compare++;
+				$it_compare++;
+				while ( ($array[$i] < $x) ) {++$i;}
+				while ( ($x < $array[$j]) ) {--$j;}
+				if ($i <= $j) {
+					$w = $array[$i];
+					$array[$i] = $array[$j];
+					$array[$j] = $w;
+					$it_swap++;
+					++$i;
+					--$j;
+				}
+			}
+			if ($i < $R){
+				$s++;
+				$low[$s] = $i;
+				$hight[$s] = $R;
+			}
+			$R = $j;
+		}
+	}
+	return $it_swap, $it_compare, @array;
+}
+
+sub quicksortOLD {
+	my ($self) = @_;
+	my @array = @{ $self->{ data } };
 	my $len = scalar @array;
 	
 	my $it_swap = 0;
 	my $it_compare = 0;
+	my $L = 0;
+	my $R = $len - 1;
 	my @data;
 	my @result;
 
 	sub sort_alg {
-		my ($data, $array) = @_;
-		my $L = pop @$data;
-		my $R = pop @$data;
-		my $it_compare = pop @$data;
-		my $it_swap = pop @$data;
-
-		#my $L = pop @_;
-		#my $R = pop @_;
-		#my $it_compare = pop @_;
-		#my $it_swap = pop @_;
-		#my @array = @_;
-
+		my ($it_swap, $it_compare, $L, $R, $array) = @_;
+		#say $$it_swap." ".$$it_compare;
 		my $i = $L;
 		my $j = $R;
 		my $w;
-
 		my $x = @$array[($L + $R)/2];
+		
 		while ($i <= $j) {
-			while (@$array[$i] < $x) {++$i; ++$it_compare;};
-			while ($x < @$array[$j]) {--$j; ++$it_compare;};
+			$$it_compare++;
+			$$it_compare++;
+			while ( (@$array[$i] < $x) ) {++$i;}
+			while ( ($x < @$array[$j]) ) {--$j;}
 			if ($i <= $j) {
 				$w = @$array[$i];
 				@$array[$i] = @$array[$j];
 				@$array[$j] = $w;
-				++$it_swap;
+				$$it_swap++;
 				++$i;
 				--$j;
 			}
 		}
 		if ($L < $j) { 
-			#say "LEFT";
-			push @$data, $it_swap;
-			push @$data, $it_compare;
-			push @$data, $j;
-			push @$data, $L;
-			
-			($it_swap, $it_compare, @$array) = sort_alg(\@$data, \@$array)
+			$R = $j;
+			($$it_swap, $$it_compare, @$array) = sort_alg(\$$it_swap, \$$it_compare, $L, $R, \@$array);
 		};
 	
 		if ($i < $R) { 
-			#say "RIGHT";
-			push @$data, $it_swap;
-			push @$data, $it_compare;
-			push @$data, $R;
-			push @$data, $i;
-			
-			($it_swap, $it_compare, @$array) = sort_alg(\@$data, \@$array);
+			$L = $i;
+			($$it_swap, $$it_compare, @$array) = sort_alg(\$$it_swap, \$$it_compare, $L, $R, \@$array);
 		};
-
-		#push @array, $it_swap;
-		#push @array, $it_compare;
-		
-		return $it_swap, $it_compare, @$array;
+		return $$it_swap, $$it_compare, @$array;
 	};
-	push @data, $it_swap;
-	push @data, $it_compare;
-	push @data, ($len - 1);
-	push @data, 0;
-
-	#push @array, $it_swap;
-	#push @array, $it_compare;
-	#push @array, ($len - 1);
-	#push @array, 0;
-
-	($it_swap, $it_compare, @result) = sort_alg(\@data, \@array);
-	#$it_compare = pop @result;
-	#$it_swap = pop @result;
 	
+	($it_swap, $it_compare, @result) = sort_alg(\$it_swap, \$it_compare, $L, $R, \@array);
 	return $it_swap, $it_compare, @result;
-
 }
 
 sub insertion {
@@ -138,20 +157,22 @@ sub insertion {
 	while( $i <= $len - 1){
 		$j = $i;
 		$x = $array[$i];
-		#LOOP:
-		while ( ( $j > 0 ) && ($x <= $array[$j - 1]) ){
+		LOOP:
+		#while ( ( $j > 0 ) && ($x <= $array[$j - 1]) ){
+		while ( ( $j > 0 ) ){
 			++$it_compare;
-			#if ($x <= $array[$j - 1]) {
+			if ($x <= $array[$j - 1]) {
 				$array[$j] = $array[$j - 1];
 				++$it_swap;
 				--$j;
-			#} else {
-			#	last LOOP;		
-			#}
+			} else {
+				last LOOP;		
+			}
 		}
 		$array[$j] = $x;
 		$i++;
 	}
+	#say join(" ",@array);
 	return $it_swap, $it_compare, @array;
 }
 
