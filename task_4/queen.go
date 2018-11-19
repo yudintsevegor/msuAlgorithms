@@ -5,89 +5,72 @@ import (
 	"reflect"
 )
 
-var a = make([]bool, 8)
-var b = make([]bool, 15)
-var c = make([]bool, 15)
-var x = make([]int, 8)
+var notQueenAtRow = make([]bool, 0, 1)
+var notQueenAtDiagonalI = make([]bool, 0, 1)
+var notQueenAtDiagonalII = make([]bool, 0, 1)
+var x = make([]int, 0, 1)
 var m int
 var n int
-
-/*
-func SetQueen(i,j int){
-	x[i] = j
-	a[j] = false
-	b[i + j] = false
-	c[i - j] = false
-}
-
-func RemoveQueen(i,j int) {
-	j = x[i]
-	a[j] = true
-	b[i + j] = true
-	c[i - j] = true
-	x[i] = 0
-}
-
-func Safe(i,j int) bool{
-	return a[j] && b[i +j] && c[i - j]
-}
-*/
 
 var result = make(map[int][]int, 1)
 var combinations = make(map[int][]int, 1)
 var count int
 
-func Try(i int) {
+func Try(i int, sizeOfChessBoard int ){
 	var j int
-	if i < 8 {
-		for j = 0; j < 8; j++ {
-			if a[j] && b[i+j] && c[i-j+7] {
+	//fmt.Println(result)
+	if i < sizeOfChessBoard {
+		for j = 0; j < sizeOfChessBoard; j++ {
+			if notQueenAtRow[j] && notQueenAtDiagonalI[i + j] && notQueenAtDiagonalII[i - j + (sizeOfChessBoard - 1)] {
 				x[i] = j
-				a[j] = false
-				b[i+j] = false
-				c[i-j+7] = false
+				notQueenAtRow[j] = false
+				notQueenAtDiagonalI[i + j] = false
+				notQueenAtDiagonalII[i - j + (sizeOfChessBoard - 1)] = false
 				n++
-				Try(i + 1)
+				Try(i + 1, sizeOfChessBoard)
 				x[i] = -1
-				a[j] = true
-				b[i+j] = true
-				c[i-j+7] = true
+				notQueenAtRow[j] = true
+				notQueenAtDiagonalI[i + j] = true
+				notQueenAtDiagonalII[i -j + (sizeOfChessBoard - 1)] = true
 			}
 		}
 	} else {
-		/**
-		if m < 12 {
-			fmt.Println(fmt.Sprint(x))
-		}/**/
+		element := x
+		fmt.Println(m, element, result)
 
-		combinations[count] = x
+		combinations[count] = element
 		count++
-
-		ansRotate90 := rotate90(x)
+		/**/
+		if m == 0 {
+			fmt.Println("LOl")
+			result[m] = element
+		}
+		/**/
+		ansRotate90 := rotate90(element)
 		ok1 := check(ansRotate90, combinations)
 		if ok1 {
 			combinations[count] = ansRotate90
 			count++
 		}
-		ansRotate180 := rotate180(x)
+		ansRotate180 := rotate180(element)
 		ok2 := check(ansRotate180, combinations)
 		if ok2 {
 			combinations[count] = ansRotate180
 			count++
 		}
-		ansRotate270 := rotate270(x)
+		ansRotate270 := rotate270(element)
 		ok3 := check(ansRotate270, combinations)
 		if ok3 {
 			combinations[count] = ansRotate270
 			count++
 		}
-		ansHorizontal := horizontalReflection(x)
+		ansHorizontal := horizontalReflection(element)
 		ok4 := check(ansHorizontal, combinations)
 		if ok4 {
 			combinations[count] = ansHorizontal
 			count++
 		}
-		ansVertical := verticalReflection(x)
+		ansVertical := verticalReflection(element)
 		ok5 := check(ansVertical, combinations)
 		if ok5 {
 			combinations[count] = ansVertical
@@ -97,7 +80,7 @@ func Try(i int) {
 		/**/
 		//if m < 12 {
 		fmt.Println("M", m)
-		fmt.Println(x)
+		fmt.Println(element)
 		fmt.Println(ansRotate90)
 		fmt.Println(ansRotate180)
 		fmt.Println(ansRotate270)
@@ -113,9 +96,12 @@ func Try(i int) {
 		/**/
 		if ok1 && ok2 && ok3 && ok4 && ok5 {
 			fmt.Println("X", m)
-			result[m] = x
-			fmt.Println(fmt.Sprint(x))
+			result[m] = element
+			fmt.Println(fmt.Sprint(element))
 		}
+		//fmt.Println(fmt.Sprint(x))
+		//fmt.Println(result)
+		fmt.Println(m, element, result)
 		m++
 	}
 	/**/
@@ -150,7 +136,7 @@ func rotate180(in []int) []int {
 
 func rotate270(in []int) []int {
 	lenth := len(in) - 1
-	out := make([]int, lenth+1)
+	out := make([]int, lenth + 1)
 	for ind, value := range in {
 		out[value] = lenth - ind
 	}
@@ -159,7 +145,7 @@ func rotate270(in []int) []int {
 
 func verticalReflection(in []int) []int {
 	lenth := len(in) - 1
-	out := make([]int, lenth+1)
+	out := make([]int, lenth + 1)
 	for ind, value := range in {
 		out[ind] = lenth - value
 	}
@@ -169,7 +155,7 @@ func verticalReflection(in []int) []int {
 
 func horizontalReflection(in []int) []int {
 	lenth := len(in) - 1
-	out := make([]int, lenth+1)
+	out := make([]int, lenth + 1)
 	for ind, value := range in {
 		out[lenth-ind] = value
 	}
@@ -180,18 +166,23 @@ func horizontalReflection(in []int) []int {
 func main() {
 	var i int
 	var j int
-	for i = 0; i < 8; i++ {
-		a[i] = true
-		x[i] = -1
+	sizeOfChessBoard := 4
+	for i = 0; i < sizeOfChessBoard; i++ {
+		//notQueenAtRow[i] = true
+		notQueenAtRow = append(notQueenAtRow, true)
+		x = append(x, -1)
+		//x[i] = -1
 	}
-	for j = 0; j < 15; j++ {
-		b[j] = true
-		c[j] = true
+	for j = 0; j < ( sizeOfChessBoard * 2 ) - 1 ; j++ {
+		//notQueenAtDiagonalI[j] = true
+		//notQueenAtDiagonalII[j] = true
+		notQueenAtDiagonalI = append(notQueenAtDiagonalI, true)
+		notQueenAtDiagonalII = append(notQueenAtDiagonalII, true)
 	}
 	m = 0
 	n = 0
 	count = 0
-	Try(0)
+	Try(0, sizeOfChessBoard)
 	fmt.Println("M", m)
 	fmt.Println("N", n)
 	fmt.Println(len(result))
