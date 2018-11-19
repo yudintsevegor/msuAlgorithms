@@ -3,7 +3,8 @@ function plot_perl(mode)
     str_1 = './task_1/points/';
     str_2 = './task_2/points/';
     str_3 = './task_3/points/';
-    
+    str_4 = './task_4/points/';
+
 if (mode == 1)
 	X = dlmread(strcat(str_1, 'fix_text_X.txt'));
 	Y_1 = dlmread(strcat(str_1, 'fix_text_Ybf.txt'));
@@ -244,6 +245,37 @@ elseif (mode == 3)
 	ylabel('Number of operations')
 	grid on;
 	print(fig, strcat(str_3, 'operations separeted'), '-dpng');
-    legend('compare','swap');
+    	legend('compare','swap');
+  
+elseif (mode == 4)
+    	
+	X = dlmread(strcat(str_4, 'pointsSize.txt'));
+	Y_1 = dlmread(strcat(str_4, 'pointsCalls.txt'));
+	Y_2 = dlmread(strcat(str_4, 'pointsAll.txt'));
+	Y_3 = dlmread(strcat(str_4, 'pointsUniq.txt'));
 
+	fig = figure(1);
+	plot(X, Y_1);
+	title('The dependence of recursive calls  on the size of ChessBoard')
+	xlabel('Size Of ChessBoard')
+	ylabel('Number of operations')
+	grid on;
+	print(fig, strcat(str_4, 'recursiveCalls'), '-dpng');
+	
+	fig = figure(2);
+	plot(X, Y_2);
+	title('The dependence of number of positions(ALL) on the size of ChessBoard')
+	xlabel('Size Of ChessBoard')
+	ylabel('Number of operations')
+	grid on;
+	print(fig, strcat(str_4, 'positionsAll'), '-dpng');
+
+
+	fig = figure(3);
+	plot(X, Y_3);
+	title('The dependence of number of positions(UNIQ) on the size of ChessBoard')
+	xlabel('Size Of ChessBoard')
+	ylabel('Number of operations')
+	grid on;
+	print(fig, strcat(str_4, 'positionsUNIQ'), '-dpng');
 end
