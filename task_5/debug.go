@@ -1,40 +1,51 @@
 package main
 
 import (
-    "fmt"
+	"fmt"
+	//"strings"
 )
-
-type Node struct{
-    Value int
-    Left *Node
-    Right *Node
+type BTree struct {
+	Left *BTree
+	Right *BTree
+	Value int
 }
 
-func insert(root *Node,v int) *Node {
-    if root == nil{
-        root = &Node{v,nil,nil}
-    } else if v<root.Value{
-        root.Left = insert(root.Left,v)
-    } else{
-        root.Right = insert(root.Right,v)
-    }
-    return root
+func insert(t *BTree, v int) *BTree{
+	if t == nil {
+		t = &BTree{nil, nil, v}
+	} else if v < t.Value {
+		t.Left = insert(t.Left, v)
+	} else {
+		t.Right = insert(t.Right, v)
+	}
+	return t
 }
 
-func inTraverse(root *Node){
-    if (root==nil){
-        return
-    }
-    inTraverse(root.Left)
-    fmt.Printf("%d ",root.Value)
-    inTraverse(root.Right)
+func showMe(t *BTree, h int){
+	if t == nil {
+		return
+	}
+	format := ""
+	for i := 0; i < h; i++{
+		format += "          "
+	}
+	format += "---["
+	h++
+	showMe(t.Right, h)
+	fmt.Printf(format + "%d\n", t.Value)
+	showMe(t.Left, h)
 }
 
 func main() {
-    var treeRoot *Node
-    a := []int{1, 2, 6, 4, 5}
-    for i:=0;i<len(a);i++{
-        treeRoot = insert(treeRoot,a[i])
-    }
-    inTraverse(treeRoot)
+	var tree *BTree
+	//var num int
+	//fmt.Println(num)
+	array := []int{8, 4, 2, 1, 3, 6, 5, 7, 10, 9, 11}
+	for i := 0; i < len(array); i++{
+		tree = insert(tree, array[i])
+	}
+	showMe(tree, 0)
+	//fmt.Println(tree.String())
 }
+
+

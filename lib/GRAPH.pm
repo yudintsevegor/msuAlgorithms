@@ -4,7 +4,6 @@ package GRAPH;
  
 use 5.016;
 use strict;
-#use GD::Graph::linespoints;
 use DDP;
  
 sub new {
@@ -17,11 +16,10 @@ sub new {
 sub plot {
 	my ($self) = @_;
 	my @X;
-	#p $self;
 	my %dir = (
-		task_1	=> "/home/yudintsevegor/Perl/MSU_algorithms/task_1/points/",
-		task_2	=> "/home/yudintsevegor/Perl/MSU_algorithms/task_2/points/",
-		task_3	=> "/home/yudintsevegor/Perl/MSU_algorithms/task_3/points/",
+		task_1	=> "../task_1/points/",
+		task_2	=> "../task_2/points/",
+		task_3	=> "../task_3/points/",
 	);
 
 	if ($self->{task} eq "task_1") {

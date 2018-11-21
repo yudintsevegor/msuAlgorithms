@@ -7,7 +7,7 @@ use Getopt::Long;
 Getopt::Long::Configure ('bundling');
 use FindBin;
 use lib "$FindBin::Bin/../lib", glob("$FindBin::Bin/../*/lib*"),;
-use SM;
+use SearchingMethods;
 use GRAPH;
 
 my $ft = 0;
@@ -45,19 +45,13 @@ if ( $fs == 1) {
 
 	my $M = scalar @sample;
 	my $i = 2 ** $points;
-	#my $i = 1;
 	
 	while ( $points > 0) {	
 		
 		my @text = @text_std[scalar @text_std/$i..scalar @text_std - 1]; 
-		#my @text = @text_std[0..scalar @text_std - 1]; 
 		my $N = scalar @text;
 		unshift @arr_N, $N;
 		
-		say "\nN: ".$N;
-		say "size of TEXT: ".scalar @text_std;;
-		say "M: ".$M;
-			
 		my $object = SM->new(
 			text	=>	[@text],
 			sample	=>	[@sample],
@@ -65,11 +59,7 @@ if ( $fs == 1) {
 			M	=>	$M,
 		);
 	
-		
-		say "BRUTE FORCE";	
 		my @answer_bf = $object->brute_force;
-		say "ITERATIONS: $answer_bf[0]";
-		say "POSITION: ".$answer_bf[1];
 			
 		if ( $answer_bf[1] == -1 ) {
 			say "NO MATCH BY Brute-Force";
@@ -77,11 +67,7 @@ if ( $fs == 1) {
 			unshift @IT_BF, $answer_bf[0]; 
 		}
 			
-
-		say "BOYER MOORE";	
 		my @answer_bm = $object->boyer_moore;	
-		say "ITERATIONS: $answer_bm[0]";	
-		say "POSITION: $answer_bm[1]";
 				
 		if ( $answer_bm[1] == -1 ) {
 			say "NO MATCH BY Boyer-Moore";
@@ -114,9 +100,6 @@ if ( $fs == 1) {
 		my $N = scalar @text;
 		push @arr_M, $len;
 	
-		say "\nN: ".$N;
-		say "M: ".$len;
-	
 		my $object = SM->new(
 				text	=>	[@text],
 				sample	=>	[@sample],
@@ -124,11 +107,7 @@ if ( $fs == 1) {
 				M	=>	$len,
 				);
 
-
-		say "BRUTE FORCE";	
 		my @answer_bf = $object->brute_force;
-		say "ITERATIONS: $answer_bf[0]";
-		say "POSITION: ".$answer_bf[1];
 		
 		if ( $answer_bf[1] == -1 ) {
 			say "NO MATCH BY Brute-Force";
@@ -136,10 +115,7 @@ if ( $fs == 1) {
 			push @IT_BF, $answer_bf[0]; 
 		}
 	
-		say "BOYER MOORE";	
 		my @answer_bm = $object->boyer_moore;	
-		say "ITERATIONS: $answer_bm[0]";	
-		say "POSITION: $answer_bm[1]";
 		
 		if ( $answer_bm[1] == -1 ) {
 			say "NO MATCH BY Boyer-Moore";
@@ -147,8 +123,6 @@ if ( $fs == 1) {
 			push @IT_BM, $answer_bm[0];
 		}
 
-		#pop @sample;
-		#$len = scalar @sample;
 		--$size;
 	}
 
@@ -167,11 +141,4 @@ my $object = GRAPH->new(
 		);
 
 $object->plot;	
-
-#foreach my $i (0..scalar @arr_N - 2 ){
-#	say "RESULT: ".( $arr_N[$i] - $arr_N[$i + 1]);
-	
-#}
-
-
 

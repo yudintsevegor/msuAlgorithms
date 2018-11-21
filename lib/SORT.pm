@@ -27,18 +27,17 @@ sub selection {
 			if ( $array[$j] < $x) {
 				$k = $j;
 				$x = $array[$k];
-				++$it_swap;
+				$it_swap++;
 			}
 			++$j;
 		}
-		$array[$k] = $array[$i];
-		$array[$i] = $x;
-		++$it_swap;
+		if ($k != $i) {
+			$array[$k] = $array[$i];
+			$array[$i] = $x;
+			$it_swap++;
+		}
 		++$i; 
 	}
-	#say "END: ";
-	#say join(" ", @array);
-	#say $it_swap;	
 	return $it_swap, $it_compare, @array;
 }
 
@@ -108,7 +107,6 @@ sub quicksortOLD {
 
 	sub sort_alg {
 		my ($it_swap, $it_compare, $L, $R, $array) = @_;
-		#say $$it_swap." ".$$it_compare;
 		my $i = $L;
 		my $j = $R;
 		my $w;
@@ -158,7 +156,6 @@ sub insertion {
 		$j = $i;
 		$x = $array[$i];
 		LOOP:
-		#while ( ( $j > 0 ) && ($x <= $array[$j - 1]) ){
 		while ( ( $j > 0 ) ){
 			++$it_compare;
 			if ($x <= $array[$j - 1]) {
@@ -172,7 +169,6 @@ sub insertion {
 		$array[$j] = $x;
 		$i++;
 	}
-	#say join(" ",@array);
 	return $it_swap, $it_compare, @array;
 }
 
@@ -234,8 +230,6 @@ sub heapsort {
 			@$arrayToSift[$i] = @$arrayToSift[$j];
 			$i = $j;
 			$j = 2*$j + 1;
-			#say "X: ".$x;
-			#say "a[j]".@$arrayToSift[$j];
 			$it_swap++;
 
 			$it_compare++;
@@ -244,12 +238,9 @@ sub heapsort {
 			}
 		}
 		@$arrayToSift[$i] = $x;
-		#say join(" ", @$arrayToSift);
 		return $it_swap, $it_compare, @$arrayToSift;
 	}	
 	my @result = @array;	
-	#say "RESULT: ";
-	#say join(" ", @result);
 	return $it_swap, $it_compare, @result;
 }
 

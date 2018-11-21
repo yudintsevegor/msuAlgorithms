@@ -7,18 +7,35 @@ import (
 type BTree struct {
 	Left *BTree
 	Right *BTree
-	Value int
+	Value string
+	counter int
 }
 
-func insert(t *BTree, v int) *BTree{
+func push(t *BTree, word string) {
+
+
+}
+
+func insert(t *BTree, word string) *BTree{
 	if t == nil {
-		t = &BTree{nil, nil, v}
-	} else if v < t.Value {
-		t.Left = insert(t.Left, v)
+		t = &BTree{nil, nil, v, 1}
+		return t
+	}
+
+	if word < t.Value {
+		t.Left = insert(t.Left, word)
 	} else {
-		t.Right = insert(t.Right, v)
+		t.Right = insert(t.Right, word)
 	}
 	return t
+}
+
+func del() {
+
+}
+
+func find() {
+
 }
 
 func showMe(t *BTree, h int){
@@ -32,13 +49,14 @@ func showMe(t *BTree, h int){
 	format += "---["
 	h++
 	showMe(t.Right, h)
-	fmt.Printf(format + "%d\n", t.Value)
+	fmt.Printf(format + "%s\n", t.Value)
 	showMe(t.Left, h)
 }
 
 func main() {
 	var tree *BTree
-	array := []int{8, 4, 2, 1, 3, 6, 5, 7, 10, 9, 11}
+	//fmt.Pritln(tree)
+	array := []int{"1", "2", "1", "23", "77", "1", "1", "2", "44"}
 	for i := 0; i < len(array); i++{
 		tree = insert(tree, array[i])
 	}

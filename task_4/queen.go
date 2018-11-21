@@ -78,21 +78,6 @@ func Try(i int, sizeOfChessBoard int) {
 			count++
 		}
 
-		/**
-		fmt.Println("M", m)
-		fmt.Println(helper)
-		fmt.Println(ansRotate90)
-		fmt.Println(ansRotate180)
-		fmt.Println(ansRotate270)
-		fmt.Println(ansHorizontal)
-		fmt.Println(ansVertical)
-		fmt.Println(ok1)
-		fmt.Println(ok2)
-		fmt.Println(ok3)
-		fmt.Println(ok4)
-		fmt.Println(ok5)
-		/**/
-
 		if ok1 && ok2 && ok3 && ok4 && ok5 {
 			result[positionsAll] = helper
 		}
@@ -158,8 +143,12 @@ func horizontalReflection(in []int) []int {
 
 func showPositions(data  []int){
 	lenth := len(data)
-	for i := 0; i < len(data); i++{
-		var board = make([]string, 0, lenth)
+	fmt.Printf("CHESSBOARD %v x %v\n", lenth, lenth)
+	var numbers = make([]string, 0 , lenth + 1)
+	numbers = append(numbers, "$$")
+		for i := 0; i < len(data); i++{
+		var board = make([]string, 0, lenth + 1)
+		board = append(board, strconv.Itoa(lenth- 1) + " ")
 		for j := 0; j < len(data); j++{
 			if data[j] == lenth - 1{
 				board = append(board, "* ")
@@ -170,6 +159,12 @@ func showPositions(data  []int){
 		lenth--
 		fmt.Println(fmt.Sprint(board))
 	}
+
+	for k := 0; k < len(data); k++{
+		numbers = append(numbers, strconv.Itoa(k) + " ")
+	}
+	fmt.Println(fmt.Sprint(numbers))
+
 }
 
 func main() {
@@ -218,6 +213,7 @@ func main() {
 	fUniq, _ := os.Create("./points/pointsUniq.txt")
 	fCalls, _ := os.Create("./points/pointsCalls.txt")
 	fSize, _ := os.Create("./points/pointsSize.txt")
+
 	defer fAll.Close()
 	defer fUniq.Close()
 	defer fCalls.Close()
