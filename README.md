@@ -2,7 +2,7 @@
 
 Some tasks from course "Non-numerical programming algorithms", which realised using Perl(tasks: 1 to 3) and Golan(tasks: 4 to ...) and matlab(for plotting).
 
-h1 Structure
+Structure
 ===========
 
 1. ./libs
