@@ -1,4 +1,5 @@
-To compare 2 substring searching algorithms in 1Mb text:
+***To compare 2 substring searching algorithms in 1Mb text:***
+
 
 1) Brute Force
 2) Boyer-Moore
@@ -6,6 +7,7 @@ To compare 2 substring searching algorithms in 1Mb text:
 
 To plot graphics:
 
-> Dependence Quantity of operations on the lenth of the text at fixed substring
-> Dependence Quantity of operations on the lenth of the string at fixed text
+> 1. Dependence Quantity of operations on the lenth of the text at fixed substring
+
+> 2. Dependence Quantity of operations on the lenth of the string at fixed text
 
