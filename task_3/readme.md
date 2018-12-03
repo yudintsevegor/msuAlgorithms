@@ -1,4 +1,4 @@
-***To compare 2 sorting algorithms:***
+***Compare 2 sorting algorithms:***
 
 1) QuickSort
 2) Selection

@@ -1,4 +1,4 @@
-***To compare 2 substring searching algorithms in 1Mb text:***
+***Compare 2 substring searching algorithms in 1Mb text:***
 
 
 1) Brute Force

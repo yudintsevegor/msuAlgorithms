@@ -1,4 +1,4 @@
-***To solve a N-queens problem.***
+***Solve a N-queens problem.***
 
 To plot graphics:
 

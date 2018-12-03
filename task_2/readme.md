@@ -1,4 +1,4 @@
-***To compare 2 sorting algorithms:***
+***Compare 2 sorting algorithms:***
 
 1) HeapSort
 2) Insertion
