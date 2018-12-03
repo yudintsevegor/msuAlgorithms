@@ -2,66 +2,84 @@ package main
 
 import (
 	"fmt"
+	//"strconv"
 	//"strings"
 )
-type BTree struct {
-	Left *BTree
-	Right *BTree
+
+
+type Btree struct {
+	Root *Node
+}
+
+type Node struct {
+	Left *Node
+	Right *Node
 	Value string
-	counter int
+	Counter int
 }
 
-func push(t *BTree, word string) {
+var length int
+var swap int
+var mapSwapLength = make(map[int]int, 1)
 
-
+func newNode(val string) *Node{
+	return  &Node{nil, nil, val, 1}
 }
 
-func insert(t *BTree, word string) *BTree{
+func insert(t *Node, word string) *Node{
 	if t == nil {
-		t = &BTree{nil, nil, v, 1}
+		length++
+		mapSwapLength[swap] = length
+		//t = &BTree{nil, nil, word, 1}
+		return newNode(word)
+	}
+	if word == t.Value {
+		t.Counter++
+		swap++
+		return t
+	} else if  word < t.Value {
+		swap++
+		t.Left = insert(t.Left, word)
+		return t
+	} else {
+		swap++
+		t.Right = insert(t.Right, word)
 		return t
 	}
-
-	if word < t.Value {
-		t.Left = insert(t.Left, word)
-	} else {
-		t.Right = insert(t.Right, word)
-	}
+	length++
+	mapSwapLength[swap] = length
+	swap = 0
 	return t
 }
 
-func del() {
-
-}
-
-func find() {
-
-}
-
-func showMe(t *BTree, h int){
+func showMe(t *Node, h int){
 	if t == nil {
 		return
 	}
 	format := ""
 	for i := 0; i < h; i++{
-		format += "          "
+		format += "        "
 	}
 	format += "---["
 	h++
 	showMe(t.Right, h)
-	fmt.Printf(format + "%s\n", t.Value)
+	fmt.Printf(format + "%v : %v\n", t.Value, t.Counter)
 	showMe(t.Left, h)
 }
 
 func main() {
-	var tree *BTree
+	var tree *Node
 	//fmt.Pritln(tree)
-	array := []int{"1", "2", "1", "23", "77", "1", "1", "2", "44"}
-	for i := 0; i < len(array); i++{
-		tree = insert(tree, array[i])
+	//array := []string{"1", "2", "1", "23", "77", "1", "1", "2", "44"}
+	//array := []int{1, 2, 1, 23, 77, 1, 1, 2, 44}
+	//array := []int{8, 4, 10, 2, 6 ,1 ,3 ,5, 7 ,9}
+	array := []string{"ledas", "lol", "dw", "safs", "lol","wefwef", "ds"}
+	for _, val := range array{
+		//str := strconv.Itoa(val)
+		tree = insert(tree, val)
 	}
 	showMe(tree, 0)
-	//fmt.Println(tree.String())
+	fmt.Println(mapSwapLength)
 }
 
 
