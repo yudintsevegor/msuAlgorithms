@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+/*
 	"io/ioutil"
 	"bufio"
 	"sort"
 	"os"
 	"strings"
 	"strconv"
+	*/
 )
 
 
@@ -23,6 +25,7 @@ type Btree struct {
 type Node struct {
 	Left *Node
 	Right *Node
+	//Value int
 	Value string
 	Counter int
 }
@@ -34,10 +37,12 @@ var size = 50
 var topWords = make(map[string]int, size + 1)
 
 func newNode(val string) *Node{
+//func newNode(val int) *Node{
 	return  &Node{nil, nil, val, 1}
 }
 
 func insert(t *Node, word string) *Node{
+//func insert(t *Node, word int) *Node{
 	if t == nil {
 		length++
 		mapLengthSwap[length] = swap
@@ -64,7 +69,7 @@ func insert(t *Node, word string) *Node{
 
 var min int
 var minKey string
-
+/*
 func sortMap(topWords map[string]int, t *Node) (map[string]int){
 	var ind int
 	if len(topWords) <= size {
@@ -109,7 +114,7 @@ func findTop(t *Node){
 	topWords = sortMap(topWords, t)
 	findTop(t.Left)
 }
-
+*/
 func showMe(t *Node, h int){
 	if t == nil {
 		return
@@ -121,13 +126,14 @@ func showMe(t *Node, h int){
 	format += "---["
 	h++
 	showMe(t.Right, h)
-	fmt.Printf(format + "%v : %v\n", t.Value, t.Counter)
+	//fmt.Printf(format + "%v : %v\n", t.Value, t.Counter)
+	fmt.Printf(format + "VALUE: %v\n", t.Value)
 	showMe(t.Left, h)
 }
 
 func main() {
 	var tree *Node
-	txt := "text_eng.txt"
+	/**txt := "text_eng.txt"
 	X := "./points/length.txt"
 	Y := "./points/swap.txt"
 	//txt := "text.txt"
@@ -141,16 +147,17 @@ func main() {
 	for scanner.Scan(){
 		tree = insert(tree, scanner.Text())
 	}
-	/*
+	/**/
 	//array := []int{1, 2, 1, 23, 77, 1, 1, 2, 44}
 	//array := []int{8, 4, 10, 2, 6 ,1 ,3 ,5, 7 ,9}
 	array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "tyu", "wer", "lol","wer", "qw"}
+	//array := []int{4,5,7,2,1,3,6}
 	for _, val := range array{
 		tree = insert(tree, val)
 	}
-	*/
-	findTop(tree)
-	//showMe(tree, 0)
+	/**/
+	showMe(tree, 0)
+	/*findTop(tree)
 	sortedStruct := make([]KeyValue, size + 1)
 
 	for key, value := range topWords{
@@ -183,5 +190,6 @@ func main() {
 		fileX.WriteString(length + "\n")
 		fileY.WriteString(swap + "\n")
 	}
+	*/
 }
 

@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
-	/*"io/ioutil"
+	/**
+	"io/ioutil"
 	"bufio"
 	"sort"
 	"os"
 	"strings"
 	"strconv"
-	*/
+	/**/
 )
 
 
@@ -24,7 +25,8 @@ type AVLtree struct {
 type Node struct {
 	Left *Node
 	Right *Node
-	Value int
+	Value string
+	//Value int
 	Counter int
 	Balance int
 }
@@ -36,12 +38,12 @@ var size = 50
 var topWords = make(map[string]int, size + 1)
 
 
-func newNode(val int) *Node{
+//func newNode(val int) *Node{
+func newNode(val string) *Node{
 	return  &Node{nil, nil, val, 1, 0}
 }
 
 func LL(t, t1 *Node) *Node{
-	fmt.Println("LLLLLLLLlLLLLLLLLLLLL")
 	t.Left = t1.Right
 	t1.Right = t
 	t.Balance = 0
@@ -50,7 +52,6 @@ func LL(t, t1 *Node) *Node{
 }
 
 func RR(t, t1 *Node) *Node{
-	fmt.Println("RRRRRRRRRRRRRRRRRRRRRRRRRRR")
 	t.Right = t1.Left
 	t1.Left = t
 	t.Balance = 0
@@ -59,14 +60,16 @@ func RR(t, t1 *Node) *Node{
 }
 
 func LR(t, t1 *Node) *Node{
-	fmt.Println("LLLLLLLLLLLLLLLRRRRRRRRRR")
 	t2 := t1.Right
-
 	fmt.Println("T1")
 	fmt.Println(t1)
 	fmt.Println("T2")
 	fmt.Println(t2)
-
+	if t2 == nil {
+		fmt.Println(t1)
+		fmt.Println(t2)
+		fmt.Println("AAAAAAAAAAAAAAAAAA")
+	}
 	t1.Right = t2.Left
 	t2.Left = t1
 	t.Left = t2.Right
@@ -86,7 +89,6 @@ func LR(t, t1 *Node) *Node{
 }
 
 func RL(t, t1 *Node) *Node{
-	fmt.Println("RRRRRRRRRRRRRRRRRLLLLLLLLLLL")
 	t2 := t1.Left
 	t1.Left = t2.Right
 	t2.Right = t1
@@ -106,14 +108,14 @@ func RL(t, t1 *Node) *Node{
 	return t
 }
 
-func search(t *Node, word int, h *bool) *Node{
-	fmt.Println(t)
+//func search(t *Node, word int, h *bool) *Node{
+func search(t *Node, word string, h *bool) *Node{
+	//fmt.Println(t)
 	//showMe(t, 0)
-	fmt.Println(*h)
+	//fmt.Println(*h)
 	//fmt.Println(word)
 	if t == nil {
-	//	fmt.Println(word)
-		fmt.Println("NIL: ", t)
+		//fmt.Println(word)
 		length++
 		mapLengthSwap[length] = compare
 		*h = true
@@ -123,19 +125,17 @@ func search(t *Node, word int, h *bool) *Node{
 		//fmt.Println("==========================================")
 		return newNode(word)
 	}
-	if  t.Value == word {
+	if word == t.Value {
+		//fmt.Println(word)
 		t.Counter++
 		compare++
 		return t
 	}
 	if  t.Value > word {
 		//fmt.Println(" > ")
-		fmt.Println("LEFT BEF", t.Left)
 		t.Left = search(t.Left, word, &*h)
-		fmt.Println("LEFT AF", t.Left)
 		if *h { //balance L
-			fmt.Println("BEFORE SWITCH")
-			fmt.Println(word, t)
+			//fmt.Println(word, t)
 			switch t.Balance{
 			case 1:
 				t.Balance = 0
@@ -146,15 +146,12 @@ func search(t *Node, word int, h *bool) *Node{
 				break
 			case -1:
 				t1 := t.Left
-				fmt.Println("t")
-				fmt.Println(t)
-				fmt.Println("t1")
-				fmt.Println(t1)
+				//fmt.Println("LEFT")
+				//fmt.Println(t)
 				if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
-				//if t1.Left == nil && t1.Right == nil {
+				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
 					fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-					//t1.Balance = 0
-					return t
+					break
 				}
 				fmt.Println("HAHA")
 				if t1.Balance == -1 {
@@ -168,9 +165,6 @@ func search(t *Node, word int, h *bool) *Node{
 			}
 		}
 		//fmt.Println("L")
-		fmt.Println("AFTER SWITCH")
-		fmt.Println(word, t)
-
 		showMe(t, 0)
 		fmt.Println("==========================================")
 		compare++
@@ -189,14 +183,9 @@ func search(t *Node, word int, h *bool) *Node{
 				break
 			case 1:
 				t1 := t.Right
-				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
-				//	break
-				//}
-				fmt.Println("t")
-				fmt.Println(t)
-				fmt.Println("t1")
-				fmt.Println(t1)
-
+				if t1.Left == nil && t1.Right == nil {
+					break
+				}
 				if t1.Balance == 1{
 					t = RR(t,t1)
 				} else {
@@ -210,8 +199,8 @@ func search(t *Node, word int, h *bool) *Node{
 		compare++
 		//fmt.Println("R")
 		//fmt.Println(word)
-		showMe(t, 0)
-		fmt.Println("==========================================")
+		//showMe(t, 0)
+		//fmt.Println("==========================================")
 		return t
 	}
 	//fmt.Println("LOL")
@@ -247,17 +236,18 @@ func showMe(t *Node, h int){
 	format += "---["
 	h++
 	showMe(t.Right, h)
-	fmt.Printf(format + "VALUE: %v : COUNT: %v\n", t.Value, t.Counter)
-	//fmt.Printf(format + "VALUE: %v\n", t.Value)
+	//fmt.Printf(format + "VALUE: %v : COUNT: %v\n", t.Value, t.Counter)
+	fmt.Printf(format + "VALUE: %v\n", t.Value)
 	showMe(t.Left, h)
 }
 
 func main() {
 	var tree *Node
-	/*
+	h := true
+	/**
 	txt := "text_eng.txt"
-	X := "./points/lengthBtree.txt"
-	Y := "./points/compareBtree.txt"
+	X := "./points/lengthAVL.txt"
+	Y := "./points/compareAVL.txt"
 	//txt := "text.txt"
 	file, err := ioutil.ReadFile(txt)
 	if err != nil {
@@ -267,27 +257,25 @@ func main() {
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	scanner.Split(bufio.ScanWords)
 	for scanner.Scan(){
-		tree = search(tree, scanner.Text())
+		tree = search(tree, scanner.Text(), &h)
 	}
-	*/
+	/**/
 
-	//array := []int{4,5,7,2,1,3,6,45, 23,2,11,3,4, 4, 4, 4,1,23,44,5,3,8,9,2121,323,4}
-	array := []int{4,5,10,2,1,3,6,7,8}
-	//array := []int{4,5,10,2,1,3,6,7,7}
-	//array := []int{4,5,10,2,1,3,6,7,7, 8}
+	//array := []int{4,5,7,2,1,3,6,45, 23,2,11,3,4,1,23,44,5,3,8,9,2121,323,4}
+	//array := []int{4,5,7,2,1}
 	//array := []int{4,3,2, 1,}
 	//array := []int{8, 4, 10, 2, 6 ,1 ,3 ,5, 7 ,9}
-	h := true
-	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "tyu", "wer", "lol","wer", "qw"}
+	array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}
 	for _, val := range array{
 		//fmt.Println(val)
 		tree = search(tree, val, &h)
 	}
 
 	//findTop(tree)
-	showMe(tree, 0)
-	fmt.Println(mapLengthSwap)
-	/*sortedStruct := make([]KeyValue, size + 1)
+	//showMe(tree, 0)
+	//fmt.Println(mapLengthSwap)
+	/**
+	sortedStruct := make([]KeyValue, size + 1)
 
 	for key, value := range topWords{
 		sortedStruct = append(sortedStruct, KeyValue {key, value})
@@ -319,6 +307,6 @@ func main() {
 		fileX.WriteString(length + "\n")
 		fileY.WriteString(compare + "\n")
 	}
-	*/
+	/**/
 }
 
