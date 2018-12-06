@@ -148,11 +148,11 @@ func search(t *Node, word string, h *bool) *Node{
 				t1 := t.Left
 				//fmt.Println("LEFT")
 				//fmt.Println(t)
-				if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
 				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
-					fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-					break
-				}
+				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
+				//	fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+				//	break
+				//}
 				fmt.Println("HAHA")
 				if t1.Balance == -1 {
 					t = LL(t,t1)

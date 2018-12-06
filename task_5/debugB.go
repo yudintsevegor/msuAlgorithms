@@ -33,7 +33,7 @@ var length int
 var swap int
 var mapLengthSwap = make(map[int]int, 1)
 var size = 50
-var topWords = make(map[string]int, size)
+var topWords = make(map[string]int, size + 1)
 
 func newNode(val string) *Node{
 	return  &Node{nil, nil, val, 1}
@@ -64,37 +64,43 @@ func insert(t *Node, word string) *Node{
 	return t
 }
 
-func sortMapII(topWords map[string]int, t *Node) (map[string]int){
-	result := make(map[string]int, size + 1)
+var min int
+var minKey string
 
+func sortMapI(topWords map[string]int, t *Node) (map[string]int){
+	var ind int
 	if len(topWords) <= size {
 		return topWords
 	}
 
-	sortedTopWords := sortStruct(topWords)
-
-	for ind, val := range sortedTopWords {
-		if ind < size {
-			result[val.Key] = val.Value
+	result := make(map[string]int, size + 1)
+	for key, val := range topWords{
+		if ind == 0 {
+			min = val
+			ind++
 			continue
 		}
+		if min >= val {
+			min = val
+			minKey = key
+		}
+		ind++
 	}
-
+	if min > t.Counter {
+		return topWords
+	}
+	mark := true
+	for key, val := range topWords{
+		if min == val && mark == true{
+			result[t.Value] = t.Counter
+			mark = false
+			continue
+		}
+		result[key] = val
+	}
 	return result
 }
 /**/
-
-func sortStruct(topWords map[string]int) ([]KeyValue){
-	var sortedTopWords = make([]KeyValue, 0, size + 1)
-	for key, value := range topWords{
-		sortedTopWords = append(sortedTopWords, KeyValue {key, value})
-	}
-	sort.Slice(sortedTopWords, func(i, j int) bool {
-		return sortedTopWords[i].Value > sortedTopWords[j].Value
-	})
-	return sortedTopWords
-}
-
 func findTop(t *Node){
 	if t == nil {
 		return
@@ -103,7 +109,7 @@ func findTop(t *Node){
 	if len(topWords) <= size{
 		topWords[t.Value] = t.Counter
 	}
-	topWords = sortMapII(topWords, t)
+	topWords = sortMapI(topWords, t)
 	findTop(t.Left)
 }
 /**/
@@ -124,6 +130,7 @@ func showMe(t *Node, h int){
 }
 
 func main() {
+	var sortedTopWords = make([]KeyValue, 0, size + 1)
 	var tree *Node
 	/**/
 	txt := "text_eng.txt"
@@ -151,10 +158,17 @@ func main() {
 	/**/
 	findTop(tree)
 
-	sortedTopWords := sortStruct(topWords)
+	for key, value := range topWords{
+		sortedTopWords = append(sortedTopWords, KeyValue {key, value})
+	}
+	sort.Slice(sortedTopWords, func(i, j int) bool {
+		return sortedTopWords[i].Value > sortedTopWords[j].Value
+	})
 
-	for ind, val := range sortedTopWords {
+	ind := 0
+	for _, val := range sortedTopWords {
 		fmt.Printf("IND: %v, WORD: %v, COUNT: %v\n", ind, val.Key, val.Value)
+		ind++
 	}
 
 	X := "./points/lengthBT.txt"

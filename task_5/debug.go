@@ -41,7 +41,7 @@ func newNode(val int) *Node{
 }
 
 func LL(t, t1 *Node) *Node{
-	fmt.Println("LLLLLLLLlLLLLLLLLLLLL")
+	//fmt.Println("LLLLLLLLlLLLLLLLLLLLL")
 	t.Left = t1.Right
 	t1.Right = t
 	t.Balance = 0
@@ -50,7 +50,7 @@ func LL(t, t1 *Node) *Node{
 }
 
 func RR(t, t1 *Node) *Node{
-	fmt.Println("RRRRRRRRRRRRRRRRRRRRRRRRRRR")
+	//fmt.Println("RRRRRRRRRRRRRRRRRRRRRRRRRRR")
 	t.Right = t1.Left
 	t1.Left = t
 	t.Balance = 0
@@ -59,14 +59,14 @@ func RR(t, t1 *Node) *Node{
 }
 
 func LR(t, t1 *Node) *Node{
-	fmt.Println("LLLLLLLLLLLLLLLRRRRRRRRRR")
+	//fmt.Println("LLLLLLLLLLLLLLLRRRRRRRRRR")
 	t2 := t1.Right
-
+/*
 	fmt.Println("T1")
 	fmt.Println(t1)
 	fmt.Println("T2")
 	fmt.Println(t2)
-
+	*/
 	t1.Right = t2.Left
 	t2.Left = t1
 	t.Left = t2.Right
@@ -86,7 +86,7 @@ func LR(t, t1 *Node) *Node{
 }
 
 func RL(t, t1 *Node) *Node{
-	fmt.Println("RRRRRRRRRRRRRRRRRLLLLLLLLLLL")
+	//fmt.Println("RRRRRRRRRRRRRRRRRLLLLLLLLLLL")
 	t2 := t1.Left
 	t1.Left = t2.Right
 	t2.Right = t1
@@ -107,13 +107,13 @@ func RL(t, t1 *Node) *Node{
 }
 
 func search(t *Node, word int, h *bool) *Node{
-	fmt.Println(t)
+	//fmt.Println(t)
 	//showMe(t, 0)
-	fmt.Println(*h)
+	//fmt.Println(*h)
 	//fmt.Println(word)
 	if t == nil {
 	//	fmt.Println(word)
-		fmt.Println("NIL: ", t)
+		//fmt.Println("NIL: ", t)
 		length++
 		mapLengthSwap[length] = compare
 		*h = true
@@ -130,12 +130,12 @@ func search(t *Node, word int, h *bool) *Node{
 	}
 	if  t.Value > word {
 		//fmt.Println(" > ")
-		fmt.Println("LEFT BEF", t.Left)
+		//fmt.Println("LEFT BEF", t.Left)
 		t.Left = search(t.Left, word, &*h)
-		fmt.Println("LEFT AF", t.Left)
+		//fmt.Println("LEFT AF", t.Left)
 		if *h { //balance L
-			fmt.Println("BEFORE SWITCH")
-			fmt.Println(word, t)
+			//fmt.Println("BEFORE SWITCH")
+			//fmt.Println(word, t)
 			switch t.Balance{
 			case 1:
 				t.Balance = 0
@@ -146,17 +146,20 @@ func search(t *Node, word int, h *bool) *Node{
 				break
 			case -1:
 				t1 := t.Left
-				fmt.Println("t")
+				/*fmt.Println("t")
 				fmt.Println(t)
 				fmt.Println("t1")
 				fmt.Println(t1)
-				if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
+				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
 				//if t1.Left == nil && t1.Right == nil {
-					fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+				//	fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 					//t1.Balance = 0
-					return t
-				}
-				fmt.Println("HAHA")
+				//	return t
+				//}
+				*/
+				//fmt.Println("HAHA")
+				fmt.Println(word, t)
+				fmt.Println(word, t1)
 				if t1.Balance == -1 {
 					t = LL(t,t1)
 				} else {
@@ -168,11 +171,12 @@ func search(t *Node, word int, h *bool) *Node{
 			}
 		}
 		//fmt.Println("L")
-		fmt.Println("AFTER SWITCH")
+		/*fmt.Println("AFTER SWITCH")
 		fmt.Println(word, t)
 
 		showMe(t, 0)
 		fmt.Println("==========================================")
+		*/
 		compare++
 		return t
 	} else if t.Value < word {
@@ -192,11 +196,11 @@ func search(t *Node, word int, h *bool) *Node{
 				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
 				//	break
 				//}
-				fmt.Println("t")
+				/*fmt.Println("t")
 				fmt.Println(t)
 				fmt.Println("t1")
 				fmt.Println(t1)
-
+				*/
 				if t1.Balance == 1{
 					t = RR(t,t1)
 				} else {
@@ -208,10 +212,11 @@ func search(t *Node, word int, h *bool) *Node{
 			}
 		}
 		compare++
-		//fmt.Println("R")
+		/*fmt.Println("R")
 		//fmt.Println(word)
 		showMe(t, 0)
 		fmt.Println("==========================================")
+		*/
 		return t
 	}
 	//fmt.Println("LOL")
@@ -272,15 +277,16 @@ func main() {
 	*/
 
 	//array := []int{4,5,7,2,1,3,6,45, 23,2,11,3,4, 4, 4, 4,1,23,44,5,3,8,9,2121,323,4}
-	array := []int{4,5,10,2,1,3,6,7,8}
-	//array := []int{4,5,10,2,1,3,6,7,7}
+	//array := []int{4,5,10,2,1,3,6,7,7,8}
+//	array := []int{4,5,7, 2, 1, 3, 6}
+	array := []int{4,5,10,2,1,3,6,7,7}
 	//array := []int{4,5,10,2,1,3,6,7,7, 8}
 	//array := []int{4,3,2, 1,}
 	//array := []int{8, 4, 10, 2, 6 ,1 ,3 ,5, 7 ,9}
-	h := true
 	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "tyu", "wer", "lol","wer", "qw"}
 	for _, val := range array{
 		//fmt.Println(val)
+		h := false
 		tree = search(tree, val, &h)
 	}
 

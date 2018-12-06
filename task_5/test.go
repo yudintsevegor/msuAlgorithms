@@ -112,7 +112,8 @@ func showMe(t *avlNode, h int){
 
 func main() {
 	var root *avlNode
-	keys := []int{4,5,10,2,1,3,6,7,7,8}
+	keys := []int{4,5,10,2,1,3,6,7,7}
+	//keys := []int{4,5,10,2,1,3,6,7,7,8}
 	//keys := []int{2, 6, 1, 3, 5, 7, 16, 15, 14, 13, 12, 11, 8, 9, 10}
 	for _, key := range keys {
 		root = search(root, key)
