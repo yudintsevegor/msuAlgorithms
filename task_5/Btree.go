@@ -2,27 +2,26 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"strconv"
+	"strings"
 	/**/
-	"io/ioutil"
 	"bufio"
+	"io/ioutil"
 	"os"
-	/**/
-)
+	/**/)
 
 type Node struct {
-	Left *Node
-	Right *Node
-	Value string
+	Left    *Node
+	Right   *Node
+	Value   string
 	Counter int
 }
 
-func newNode(val string) *Node{
-	return  &Node{nil, nil, val, 1}
+func newNode(val string) *Node {
+	return &Node{nil, nil, val, 1}
 }
 
-func insert(t *Node, word string) *Node{
+func insert(t *Node, word string) *Node {
 	if length == 0 {
 		length++
 		mapLengthCompare[length] = compare
@@ -37,7 +36,7 @@ func insert(t *Node, word string) *Node{
 		return newNode(word)
 	}
 	compare++
-	switch strings.Compare(word, t.Value){
+	switch strings.Compare(word, t.Value) {
 	case 1:
 		t.Right = insert(t.Right, word)
 		return t
@@ -64,7 +63,7 @@ func main() {
 	content := string(file)
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	scanner.Split(bufio.ScanWords)
-	for scanner.Scan(){
+	for scanner.Scan() {
 		tree = insert(tree, scanner.Text())
 	}
 	/**
@@ -87,18 +86,18 @@ func main() {
 	Y := "./points/compareBT.txt"
 	fileX, err := os.Create(X)
 	defer fileX.Close()
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
 	}
 	fileY, err := os.Create(Y)
 	defer fileY.Close()
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
 	}
 	/**/
 	sortedLengthCompare := sortStructByKey(mapLengthCompare)
 
-	for _, value := range sortedLengthCompare{
+	for _, value := range sortedLengthCompare {
 		compare := strconv.Itoa(value.Value.(int))
 		length := strconv.Itoa(value.Key.(int))
 		//fmt.Println(value.Key, compare)
@@ -106,4 +105,3 @@ func main() {
 		fileY.WriteString(compare + "\n")
 	}
 }
-

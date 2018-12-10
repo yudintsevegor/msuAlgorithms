@@ -4,34 +4,33 @@ import (
 	"fmt"
 	"strconv"
 	/**/
-	"io/ioutil"
 	"bufio"
+	"io/ioutil"
 	"os"
 	"strings"
-	/**/
-)
+	/**/)
 
 type Node struct {
-	Left *Node
-	Right *Node
-	Value string
+	Left    *Node
+	Right   *Node
+	Value   string
 	Counter int
 	Balance int
 }
 
-func newNode(val string) *Node{
-	return  &Node{nil, nil, val, 1, 0}
+func newNode(val string) *Node {
+	return &Node{nil, nil, val, 1, 0}
 }
 
-func LL(t, t1 *Node) *Node{
+func LL(t, t1 *Node) *Node {
 	t.Left = t1.Right
 	t1.Right = t
 	t.Balance = 0
 	t = t1
-	return  t
+	return t
 }
 
-func RR(t, t1 *Node) *Node{
+func RR(t, t1 *Node) *Node {
 	t.Right = t1.Left
 	t1.Left = t
 	t.Balance = 0
@@ -39,7 +38,7 @@ func RR(t, t1 *Node) *Node{
 	return t
 }
 
-func LR(t, t1 *Node) *Node{
+func LR(t, t1 *Node) *Node {
 	t2 := t1.Right
 	t1.Right = t2.Left
 	t2.Left = t1
@@ -59,7 +58,7 @@ func LR(t, t1 *Node) *Node{
 	return t
 }
 
-func RL(t, t1 *Node) *Node{
+func RL(t, t1 *Node) *Node {
 	t2 := t1.Left
 	t1.Left = t2.Right
 	t2.Right = t1
@@ -79,7 +78,7 @@ func RL(t, t1 *Node) *Node{
 	return t
 }
 
-func search(t *Node, word string, h *bool) *Node{
+func search(t *Node, word string, h *bool) *Node {
 	if t == nil {
 		length++
 		mapLengthCompare[length] = compare
@@ -94,11 +93,11 @@ func search(t *Node, word string, h *bool) *Node{
 		compare = 0
 		return t
 	}
-	if  t.Value > word {
+	if t.Value > word {
 		compare++
 		t.Left = search(t.Left, word, &*h)
 		if *h { //balance L
-			switch t.Balance{
+			switch t.Balance {
 			case 1:
 				t.Balance = 0
 				*h = false
@@ -109,9 +108,9 @@ func search(t *Node, word string, h *bool) *Node{
 			case -1:
 				t1 := t.Left
 				if t1.Balance == -1 {
-					t = LL(t,t1)
+					t = LL(t, t1)
 				} else {
-					t = LR(t,t1)
+					t = LR(t, t1)
 				}
 				t.Balance = 0
 				*h = false
@@ -119,8 +118,8 @@ func search(t *Node, word string, h *bool) *Node{
 			}
 		}
 		return t
-	//} else if t.Value < word {
-	} else  {
+		//} else if t.Value < word {
+	} else {
 		compare++
 		t.Right = search(t.Right, word, &*h)
 		if *h { //balance R
@@ -134,10 +133,10 @@ func search(t *Node, word string, h *bool) *Node{
 				break
 			case 1:
 				t1 := t.Right
-				if t1.Balance == 1{
-					t = RR(t,t1)
+				if t1.Balance == 1 {
+					t = RR(t, t1)
 				} else {
-					t = RL(t,t1)
+					t = RL(t, t1)
 				}
 				t.Balance = 0
 				*h = false
@@ -162,7 +161,7 @@ func main() {
 	content := string(file)
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	scanner.Split(bufio.ScanWords)
-	for scanner.Scan(){
+	for scanner.Scan() {
 		h := false
 		tree = search(tree, scanner.Text(), &h)
 	}
@@ -185,18 +184,18 @@ func main() {
 	/**/
 	fileX, err := os.Create(X)
 	defer fileX.Close()
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
 	}
 	fileY, err := os.Create(Y)
 	defer fileY.Close()
-	if err != nil{
+	if err != nil {
 		fmt.Println(err)
 	}
 	/**/
 	sortedLengthCompare := sortStructByKey(mapLengthCompare)
 
-	for _, value := range sortedLengthCompare{
+	for _, value := range sortedLengthCompare {
 		compare := strconv.Itoa(value.Value.(int))
 		length := strconv.Itoa(value.Key.(int))
 
@@ -205,4 +204,3 @@ func main() {
 	}
 
 }
-

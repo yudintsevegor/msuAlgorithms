@@ -17,7 +17,7 @@ if (mode == 1)
 	xlabel('Lenth of the string')
 	ylabel('Number of operations')
 	grid on;
-	print(fig, strcat(str_1, 'fix_text'), '-dpng');
+	print(fig, strcat(str_1, '../pic/', 'fix_text'), '-dpng');
 	legend('bf','bm')
 
 	X = dlmread(strcat(str_1, 'fix_string_X.txt'));
@@ -30,7 +30,7 @@ if (mode == 1)
 	xlabel('Lenth of Text')
 	ylabel('Number of operations')
 	grid on;
-	print(fig, strcat(str_1, 'fix_string'), '-dpng');
+	print(fig, strcat(str_1, '../pic/',  'fix_string'), '-dpng');
 	legend('bf','bm')
 
 elseif (mode == 2)
@@ -47,7 +47,7 @@ elseif (mode == 2)
 	xlabel('Lenth of the massive')
 	ylabel('log_2 from Number of operations(swap)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_order_swap'), '-dpng');
+	print(fig, strcat(str_2, '../pic/', 'fix_order_swap'), '-dpng');
 	legend('HeapSort','Insertion')
 
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
@@ -60,7 +60,7 @@ elseif (mode == 2)
 	xlabel('Lenth of the massive')
 	ylabel('log_2 from Number of operations(compare)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_order_compare'), '-dpng');
+	print(fig, strcat(str_2, '../pic/', 'fix_order_compare'), '-dpng');
 	legend('HeapSort','Insertion')
 
 	X = dlmread(strcat(str_2, 'fix_massive_X.txt'));
@@ -73,7 +73,7 @@ elseif (mode == 2)
 	xlabel('Order')
 	ylabel('Number of operations(swap)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_massive_swap'), '-dpng');
+	print(fig, strcat(str_2, '../pic/', 'fix_massive_swap'), '-dpng');
 	legend('HeapSort','Insertion')
 
 	X = dlmread(strcat(str_2, 'fix_massive_X.txt'));
@@ -86,7 +86,7 @@ elseif (mode == 2)
 	xlabel('Order')
 	ylabel('Number of operations(compare)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_massive_compare'), '-dpng');
+	print(fig, strcat(str_2, '../pic/', 'fix_massive_compare'), '-dpng');
 	legend('HeapSort','Insertion')
 
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
@@ -98,7 +98,7 @@ elseif (mode == 2)
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(swap)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_order_swapIns'), '-dpng');
+	print(fig, strcat(str_2,'../pic/', 'fix_order_swapIns'), '-dpng');
 
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y = dlmread(strcat(str_2, 'fix_order_YswapHS.txt'));
@@ -109,7 +109,7 @@ elseif (mode == 2)
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(swap)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_order_swapHS'), '-dpng');
+	print(fig, strcat(str_2, '../pic/', 'fix_order_swapHS'), '-dpng');
 
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y = dlmread(strcat(str_2, 'fix_order_YcompareIns.txt'));
@@ -120,7 +120,7 @@ elseif (mode == 2)
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(compare)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_order_compareIns'), '-dpng');
+	print(fig, strcat(str_2, '../pic/', 'fix_order_compareIns'), '-dpng');
 
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y = dlmread(strcat(str_2, 'fix_order_YcompareHS.txt'));
@@ -131,7 +131,7 @@ elseif (mode == 2)
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(compare)')
 	grid on;
-	print(fig, strcat(str_2, 'fix_order_compareHS'), '-dpng');
+	print(fig, strcat(str_2, '../pic/',  'fix_order_compareHS'), '-dpng');
 
 elseif (mode == 3)
 
@@ -145,7 +145,7 @@ elseif (mode == 3)
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(swap)')
 	grid on;
-	print(fig, strcat(str_3, 'fix_order_swap'), '-dpng');
+	print(fig, strcat(str_3, '../pic/', 'fix_order_swap'), '-dpng');
 	legend('QuickSort','Selection')
 
 	X = dlmread(strcat(str_3, 'fix_order_X.txt'));
@@ -158,7 +158,7 @@ elseif (mode == 3)
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(compare)')
 	grid on;
-	print(fig, strcat(str_3, 'fix_order_compare'), '-dpng');
+	print(fig, strcat(str_3,'../pic/',   'fix_order_compare'), '-dpng');
 	legend('QuickSort','Selection')
 
 	X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
@@ -171,12 +171,12 @@ elseif (mode == 3)
 	xlabel('Order')
 	ylabel('Number of operations(swap)')
 	grid on;
-	print(fig, strcat(str_3, 'fix_massive_swap'), '-dpng');
+	print(fig, strcat(str_3,'../pic/', 'fix_massive_swap'), '-dpng');
 	legend('QuickSort','Selection')
 
 	X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
 	Y_1 = dlmread(strcat(str_3, 'fix_massive_YcompareQS.txt'));
-	Y_2 = dlmread(strcat(str_3, 'fix_massive_YcompareSel.txt'));
+	Y_2 = dlmread(strcat(str_3,'fix_massive_YcompareSel.txt'));
 
 	fig = figure(4);
 	plot(X, Y_1, X, Y_2);
@@ -184,11 +184,11 @@ elseif (mode == 3)
 	xlabel('Order')
 	ylabel('Number of operations(compare)')
 	grid on;
-	print(fig, strcat(str_3, 'fix_massive_compare'), '-dpng');
+	print(fig, strcat(str_3, '../pic/', 'fix_massive_compare'), '-dpng');
 	legend('QuickSort','Selection')
 
 	X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
-	Y_1 = dlmread(strcat(str_3, 'Operations.txt'));
+	Y_1 = dlmread(strcat(str_3,'Operations.txt'));
 
 	fig = figure(5);
 	plot(X, Y_1);
@@ -196,8 +196,8 @@ elseif (mode == 3)
 	xlabel('Order')
 	ylabel('Number of operations(ALL)')
 	grid on;
-	print(fig, strcat(str_3, 'operations'), '-dpng');
-
+	print(fig, strcat(str_3,'../pic/', 'operations'), '-dpng');
+    
 	X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
 	Y_1 = dlmread(strcat(str_3, 'fix_massive_YcompareQS.txt'));
 	Y_2 = dlmread(strcat(str_3, 'fix_massive_YswapQS.txt'));
@@ -208,7 +208,7 @@ elseif (mode == 3)
 	xlabel('Order')
 	ylabel('Number of operations')
 	grid on;
-	print(fig, strcat(str_3, 'operations separeted'), '-dpng');
+	print(fig, strcat(str_3, '../pic/', 'operations separeted'), '-dpng');
 	legend('compare','swap');
 
 elseif (mode == 4)
@@ -224,7 +224,7 @@ elseif (mode == 4)
 	xlabel('Size Of ChessBoard')
 	ylabel('Number of operations')
 	grid on;
-	print(fig, strcat(str_4, 'recursiveCalls'), '-dpng');
+	print(fig, strcat(str_4, '../pic/', 'recursiveCalls'), '-dpng');
 
 	fig = figure(2);
 	plot(X, Y_2);
@@ -232,7 +232,7 @@ elseif (mode == 4)
 	xlabel('Size Of ChessBoard')
 	ylabel('Number of operations')
 	grid on;
-	print(fig, strcat(str_4, 'positionsAll'), '-dpng');
+	print(fig, strcat(str_4, '../pic/', 'positionsAll'), '-dpng');
 
 
 	fig = figure(3);
@@ -241,37 +241,38 @@ elseif (mode == 4)
 	xlabel('Size Of ChessBoard')
 	ylabel('Number of operations')
 	grid on;
-	print(fig, strcat(str_4, 'positionsUNIQ'), '-dpng');
+	print(fig, strcat(str_4, '../pic/', 'positionsUNIQ'), '-dpng');
 
 elseif (mode == 5)
     
-    x = 0:1:42001;
+   	x = 0:1:42001;
 	y = log(x)/log(2);
     
-	X = dlmread(strcat(str_5, 'lengthBT.txt'));
+	X_1 = dlmread(strcat(str_5, 'lengthBT.txt'));
+	X_2 = dlmread(strcat(str_5, 'lengthAVL.txt'));
 	Y_1 = dlmread(strcat(str_5, 'compareBT.txt'));
 	Y_2 = dlmread(strcat(str_5, 'compareAVL.txt'));
 
 	fig = figure(1);
-	plot(X, Y_1, 'o');
-    hold on
-    plot(x, y, 'LineWidth', 5);
-    hold on
-    title('The dependence of number of iterations on the size of BTree')
+	plot(X_1, Y_1, 'o');
+    	hold on
+    	plot(x, y, 'LineWidth', 5);
+    	hold on
+    	title('The dependence of number of iterations on the size of BTree')
 	xlabel('Size of tree')
 	ylabel('Number of iterations(compare)')
 	grid on;
-	print(fig, strcat(str_5, 'compareBtree'), '-dpng');
+	print(fig, strcat(str_5,'../pic/','compareBtree'), '-dpng');
     
-    fig = figure(2);
-    plot(X, Y_2, 'o');
-    hold on
-    plot(x, y, 'LineWidth', 5);
-    hold on
+    	fig = figure(2);
+    	plot(X_2, Y_2, 'o');
+    	hold on
+    	plot(x, y, 'LineWidth', 5);
+    	hold on
 	title('The dependence of number of iterations on the size of AVLTree')
 	xlabel('Size of tree')
 	ylabel('Number of iterations(compare)')
 	grid on;
-	print(fig, strcat(str_5, 'compareAVLtree'), '-dpng');
+	print(fig, strcat(str_5, '../pic/', 'compareAVLtree'), '-dpng');
 
 end
