@@ -5,7 +5,8 @@ import (
 )
 
 type avlNode struct {
-	Key            int
+	Key            string
+	//Key            int
 	Height         int
 	Counter	int
 	Left, Right *avlNode
@@ -59,7 +60,7 @@ func max(a, b int) int {
 	return b
 }
 
-func search(root *avlNode, key int) *avlNode {
+func search(root *avlNode, key string) *avlNode {
 	if root == nil {
 		root = &avlNode{key, 0, 1, nil, nil}
 		root.Height = max(height(root.Left), height(root.Right)) + 1
@@ -105,15 +106,16 @@ func showMe(t *avlNode, h int){
 	format += "---["
 	h++
 	showMe(t.Right, h)
-	//fmt.Printf(format + "VALUE: %v : COUNT: %v\n", t.Value, t.Counter)
-	fmt.Printf(format + "VALUE: %v : Counter: %v\n", t.Key, t.Counter)
+	//fmt.Printf(format + "VALUE: %v : Counter: %v\n", t.Key, t.Counter)
+	fmt.Printf(format + "VALUE: %v\n", t.Key)
 	showMe(t.Left, h)
 }
 
 func main() {
 	var root *avlNode
-	keys := []int{4,5,10,2,1,3,6,7,7}
+	//keys := []int{4,5,10,2,1,3,6,7,7}
 	//keys := []int{4,5,10,2,1,3,6,7,7,8}
+	keys := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}
 	//keys := []int{2, 6, 1, 3, 5, 7, 16, 15, 14, 13, 12, 11, 8, 9, 10}
 	for _, key := range keys {
 		root = search(root, key)

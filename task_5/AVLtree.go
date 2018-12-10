@@ -2,43 +2,23 @@ package main
 
 import (
 	"fmt"
-	/**
-	"io/ioutil"
-	"bufio"
-	"sort"
-	"os"
-	"strings"
 	"strconv"
 	/**/
+	"io/ioutil"
+	"bufio"
+	"os"
+	"strings"
+	/**/
 )
-
-
-type KeyValue struct {
-	Key string
-	Value int
-}
-
-type AVLtree struct {
-	Root *Node
-}
 
 type Node struct {
 	Left *Node
 	Right *Node
 	Value string
-	//Value int
 	Counter int
 	Balance int
 }
 
-var length int
-var compare int
-var mapLengthSwap = make(map[int]int, 1)
-var size = 50
-var topWords = make(map[string]int, size + 1)
-
-
-//func newNode(val int) *Node{
 func newNode(val string) *Node{
 	return  &Node{nil, nil, val, 1, 0}
 }
@@ -61,15 +41,6 @@ func RR(t, t1 *Node) *Node{
 
 func LR(t, t1 *Node) *Node{
 	t2 := t1.Right
-	fmt.Println("T1")
-	fmt.Println(t1)
-	fmt.Println("T2")
-	fmt.Println(t2)
-	if t2 == nil {
-		fmt.Println(t1)
-		fmt.Println(t2)
-		fmt.Println("AAAAAAAAAAAAAAAAAA")
-	}
 	t1.Right = t2.Left
 	t2.Left = t1
 	t.Left = t2.Right
@@ -108,34 +79,25 @@ func RL(t, t1 *Node) *Node{
 	return t
 }
 
-//func search(t *Node, word int, h *bool) *Node{
 func search(t *Node, word string, h *bool) *Node{
-	//fmt.Println(t)
-	//showMe(t, 0)
-	//fmt.Println(*h)
-	//fmt.Println(word)
 	if t == nil {
-		//fmt.Println(word)
 		length++
-		mapLengthSwap[length] = compare
+		mapLengthCompare[length] = compare
 		*h = true
-		//fmt.Println("NULL")
-		//fmt.Println(word)
-		//showMe(t, 0)
-		//fmt.Println("==========================================")
+		compare = 0
 		return newNode(word)
 	}
 	if word == t.Value {
-		//fmt.Println(word)
 		t.Counter++
 		compare++
+		mapLengthCompare[length] = compare
+		compare = 0
 		return t
 	}
 	if  t.Value > word {
-		//fmt.Println(" > ")
+		compare++
 		t.Left = search(t.Left, word, &*h)
 		if *h { //balance L
-			//fmt.Println(word, t)
 			switch t.Balance{
 			case 1:
 				t.Balance = 0
@@ -146,14 +108,6 @@ func search(t *Node, word string, h *bool) *Node{
 				break
 			case -1:
 				t1 := t.Left
-				//fmt.Println("LEFT")
-				//fmt.Println(t)
-				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
-				//if t1.Left == nil && t1.Right == nil && t1.Counter > 1 {
-				//	fmt.Println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-				//	break
-				//}
-				fmt.Println("HAHA")
 				if t1.Balance == -1 {
 					t = LL(t,t1)
 				} else {
@@ -164,15 +118,12 @@ func search(t *Node, word string, h *bool) *Node{
 				break
 			}
 		}
-		//fmt.Println("L")
-		showMe(t, 0)
-		fmt.Println("==========================================")
-		compare++
 		return t
-	} else if t.Value < word {
+	//} else if t.Value < word {
+	} else  {
+		compare++
 		t.Right = search(t.Right, word, &*h)
 		if *h { //balance R
-		//fmt.Println("R")
 			switch t.Balance {
 			case -1:
 				t.Balance = 0
@@ -183,9 +134,6 @@ func search(t *Node, word string, h *bool) *Node{
 				break
 			case 1:
 				t1 := t.Right
-				if t1.Left == nil && t1.Right == nil {
-					break
-				}
 				if t1.Balance == 1{
 					t = RR(t,t1)
 				} else {
@@ -196,55 +144,13 @@ func search(t *Node, word string, h *bool) *Node{
 				break
 			}
 		}
-		compare++
-		//fmt.Println("R")
-		//fmt.Println(word)
-		//showMe(t, 0)
-		//fmt.Println("==========================================")
 		return t
 	}
-	//fmt.Println("LOL")
-	//length++
-	//mapLengthSwap[length] = compare
-	//compare = 0
-	return t
-}
-
-var min int
-var minKey string
-/*
-func findTop(t *Node){
-	if t == nil {
-		return
-	}
-	findTop(t.Right)
-	if len(topWords) <= size{
-		topWords[t.Value] = t.Counter
-	}
-	topWords = sortMap(topWords, t)
-	findTop(t.Left)
-}
-*/
-func showMe(t *Node, h int){
-	if t == nil {
-		return
-	}
-	format := ""
-	for i := 0; i < h; i++{
-		format += "{        }"
-	}
-	format += "---["
-	h++
-	showMe(t.Right, h)
-	//fmt.Printf(format + "VALUE: %v : COUNT: %v\n", t.Value, t.Counter)
-	fmt.Printf(format + "VALUE: %v\n", t.Value)
-	showMe(t.Left, h)
 }
 
 func main() {
 	var tree *Node
-	h := true
-	/**
+	/**/
 	txt := "text_eng.txt"
 	X := "./points/lengthAVL.txt"
 	Y := "./points/compareAVL.txt"
@@ -257,39 +163,26 @@ func main() {
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	scanner.Split(bufio.ScanWords)
 	for scanner.Scan(){
+		h := false
 		tree = search(tree, scanner.Text(), &h)
 	}
 	/**/
 
-	//array := []int{4,5,7,2,1,3,6,45, 23,2,11,3,4,1,23,44,5,3,8,9,2121,323,4}
-	//array := []int{4,5,7,2,1}
-	//array := []int{4,3,2, 1,}
-	//array := []int{8, 4, 10, 2, 6 ,1 ,3 ,5, 7 ,9}
-	array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}
-	for _, val := range array{
-		//fmt.Println(val)
+	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}
+	/*for _, val := range array{
+		h := false
 		tree = search(tree, val, &h)
 	}
-
-	//findTop(tree)
+	/**/
+	findTop(tree)
 	//showMe(tree, 0)
-	//fmt.Println(mapLengthSwap)
-	/**
-	sortedStruct := make([]KeyValue, size + 1)
+	//fmt.Println(mapLengthCompare)
 
-	for key, value := range topWords{
-		sortedStruct = append(sortedStruct, KeyValue {key, value})
-	}
-
-	sort.Slice(sortedStruct, func(i, j int) bool {
-		return sortedStruct[i].Value > sortedStruct[j].Value
-	})
-
-	ind := 0
-	for _, val := range sortedStruct {
+	sortedTopWords := sortStructByValue(topWords)
+	for ind, val := range sortedTopWords {
 		fmt.Printf("IND: %v, WORD: %v, COUNT: %v\n", ind, val.Key, val.Value)
-		ind++
 	}
+	/**/
 	fileX, err := os.Create(X)
 	defer fileX.Close()
 	if err != nil{
@@ -300,13 +193,16 @@ func main() {
 	if err != nil{
 		fmt.Println(err)
 	}
-	for key, value := range mapLengthSwap{
-		length := strconv.Itoa(key)
-		compare := strconv.Itoa(value)
+	/**/
+	sortedLengthCompare := sortStructByKey(mapLengthCompare)
+
+	for _, value := range sortedLengthCompare{
+		compare := strconv.Itoa(value.Value.(int))
+		length := strconv.Itoa(value.Key.(int))
 
 		fileX.WriteString(length + "\n")
 		fileY.WriteString(compare + "\n")
 	}
-	/**/
+
 }
 

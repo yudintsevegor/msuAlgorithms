@@ -1,9 +1,10 @@
 function plot_perl(mode)
 
-    str_1 = './task_1/points/';
-    str_2 = './task_2/points/';
-    str_3 = './task_3/points/';
-    str_4 = './task_4/points/';
+	str_1 = './task_1/points/';
+	str_2 = './task_2/points/';
+	str_3 = './task_3/points/';
+	str_4 = './task_4/points/';
+	str_5 = './task_5/points/';
 
 if (mode == 1)
 	X = dlmread(strcat(str_1, 'fix_text_X.txt'));
@@ -33,9 +34,9 @@ if (mode == 1)
 	legend('bf','bm')
 
 elseif (mode == 2)
-    x = 0:100:4000;
-    y = x.*log(x)/log(2);
-    
+	x = 0:100:4000;
+	y = x.*log(x)/log(2);
+
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y_1 = dlmread(strcat(str_2, 'fix_order_YswapHS.txt'));
 	Y_2 = dlmread(strcat(str_2, 'fix_order_YswapIns.txt'));
@@ -61,7 +62,7 @@ elseif (mode == 2)
 	grid on;
 	print(fig, strcat(str_2, 'fix_order_compare'), '-dpng');
 	legend('HeapSort','Insertion')
-	
+
 	X = dlmread(strcat(str_2, 'fix_massive_X.txt'));
 	Y_1 = dlmread(strcat(str_2, 'fix_massive_YswapHS.txt'));
 	Y_2 = dlmread(strcat(str_2, 'fix_massive_YswapIns.txt'));
@@ -87,8 +88,8 @@ elseif (mode == 2)
 	grid on;
 	print(fig, strcat(str_2, 'fix_massive_compare'), '-dpng');
 	legend('HeapSort','Insertion')
-    
- 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
+
+	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y = dlmread(strcat(str_2, 'fix_order_YswapIns.txt'));
 
 	fig = figure(5);
@@ -98,19 +99,19 @@ elseif (mode == 2)
 	ylabel('Number of operations(swap)')
 	grid on;
 	print(fig, strcat(str_2, 'fix_order_swapIns'), '-dpng');
-	
+
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y = dlmread(strcat(str_2, 'fix_order_YswapHS.txt'));
-   
+
 	fig = figure(6);
 	plot(X, Y, x ,y,'o');
-    title('The dependence of the number of operations on the length of the massive at a fixed order(HS) and n*log_2(n)')
+	title('The dependence of the number of operations on the length of the massive at a fixed order(HS) and n*log_2(n)')
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(swap)')
 	grid on;
 	print(fig, strcat(str_2, 'fix_order_swapHS'), '-dpng');
-    
-    X = dlmread(strcat(str_2, 'fix_order_X.txt'));
+
+	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y = dlmread(strcat(str_2, 'fix_order_YcompareIns.txt'));
 
 	fig = figure(7);
@@ -120,21 +121,21 @@ elseif (mode == 2)
 	ylabel('Number of operations(compare)')
 	grid on;
 	print(fig, strcat(str_2, 'fix_order_compareIns'), '-dpng');
-	
+
 	X = dlmread(strcat(str_2, 'fix_order_X.txt'));
 	Y = dlmread(strcat(str_2, 'fix_order_YcompareHS.txt'));
-   
+
 	fig = figure(8);
 	plot(X, Y, x ,y,'o');
-    title('The dependence of the number of operations on the length of the massive at a fixed order(HS) and n*log_2(n)')
+	title('The dependence of the number of operations on the length of the massive at a fixed order(HS) and n*log_2(n)')
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(compare)')
 	grid on;
 	print(fig, strcat(str_2, 'fix_order_compareHS'), '-dpng');
-    
+
 elseif (mode == 3)
-    
-    X = dlmread(strcat(str_3, 'fix_order_X.txt'));
+
+	X = dlmread(strcat(str_3, 'fix_order_X.txt'));
 	Y_1 = dlmread(strcat(str_3, 'fix_order_YswapQS.txt'));
 	Y_2 = dlmread(strcat(str_3, 'fix_order_YswapSel.txt'));
 
@@ -153,13 +154,13 @@ elseif (mode == 3)
 
 	fig = figure(2);
 	plot(X, Y_1, X, Y_2);
-    title('The dependence of the number of operations on the length of the massive at a fixed order')
+	title('The dependence of the number of operations on the length of the massive at a fixed order')
 	xlabel('Lenth of the massive')
 	ylabel('Number of operations(compare)')
 	grid on;
 	print(fig, strcat(str_3, 'fix_order_compare'), '-dpng');
-    legend('QuickSort','Selection')
-    
+	legend('QuickSort','Selection')
+
 	X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
 	Y_1 = dlmread(strcat(str_3, 'fix_massive_YswapQS.txt'));
 	Y_2 = dlmread(strcat(str_3, 'fix_massive_YswapSel.txt'));
@@ -185,33 +186,33 @@ elseif (mode == 3)
 	grid on;
 	print(fig, strcat(str_3, 'fix_massive_compare'), '-dpng');
 	legend('QuickSort','Selection')
-    
-    X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
+
+	X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
 	Y_1 = dlmread(strcat(str_3, 'Operations.txt'));
-    
-    fig = figure(5);
-    plot(X, Y_1);
+
+	fig = figure(5);
+	plot(X, Y_1);
 	title('The dependence of the number of operations on the order of the array at a fixed massive')
 	xlabel('Order')
 	ylabel('Number of operations(ALL)')
 	grid on;
 	print(fig, strcat(str_3, 'operations'), '-dpng');
-      
-    X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
+
+	X = dlmread(strcat(str_3, 'fix_massive_X.txt'));
 	Y_1 = dlmread(strcat(str_3, 'fix_massive_YcompareQS.txt'));
-    Y_2 = dlmread(strcat(str_3, 'fix_massive_YswapQS.txt'));
-    
-    fig = figure(6);
+	Y_2 = dlmread(strcat(str_3, 'fix_massive_YswapQS.txt'));
+
+	fig = figure(6);
 	plot(X, Y_1, X, Y_2);
-    title('The dependence of the number of operations on the order of the array at a fixed massive')
+	title('The dependence of the number of operations on the order of the array at a fixed massive')
 	xlabel('Order')
 	ylabel('Number of operations')
 	grid on;
 	print(fig, strcat(str_3, 'operations separeted'), '-dpng');
-    legend('compare','swap');
-  
+	legend('compare','swap');
+
 elseif (mode == 4)
-    	
+
 	X = dlmread(strcat(str_4, 'pointsSize.txt'));
 	Y_1 = dlmread(strcat(str_4, 'pointsCalls.txt'));
 	Y_2 = dlmread(strcat(str_4, 'pointsAll.txt'));
@@ -224,7 +225,7 @@ elseif (mode == 4)
 	ylabel('Number of operations')
 	grid on;
 	print(fig, strcat(str_4, 'recursiveCalls'), '-dpng');
-	
+
 	fig = figure(2);
 	plot(X, Y_2);
 	title('The dependence of number of positions(ALL) on the size of ChessBoard')
@@ -241,4 +242,20 @@ elseif (mode == 4)
 	ylabel('Number of operations')
 	grid on;
 	print(fig, strcat(str_4, 'positionsUNIQ'), '-dpng');
+
+elseif (mode == 5)
+	X = dlmread(strcat(str_5, 'lengthBT.txt'));
+	Y_1 = dlmread(strcat(str_5, 'compareBT.txt'));
+	Y_2 = dlmread(strcat(str_5, 'compareAVL.txt'));
+
+	fig = figure(1);
+	plot(X, Y_1, 'o');
+    fig = figure(2);
+    plot(X, Y_2, 'o');
+	title('The dependence of number of iterations on the size of Tree')
+	xlabel('Size of tree')
+	ylabel('Number of iterations(compare)')
+	grid on;
+	print(fig, strcat(str_5, 'compareBandAVLtree'), '-dpng');
+
 end

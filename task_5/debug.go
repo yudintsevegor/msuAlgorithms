@@ -24,7 +24,8 @@ type AVLtree struct {
 type Node struct {
 	Left *Node
 	Right *Node
-	Value int
+	Value string
+	//Value int
 	Counter int
 	Balance int
 }
@@ -36,7 +37,8 @@ var size = 50
 var topWords = make(map[string]int, size + 1)
 
 
-func newNode(val int) *Node{
+//func newNode(val int) *Node{
+func newNode(val string) *Node{
 	return  &Node{nil, nil, val, 1, 0}
 }
 
@@ -106,7 +108,8 @@ func RL(t, t1 *Node) *Node{
 	return t
 }
 
-func search(t *Node, word int, h *bool) *Node{
+func search(t *Node, word string, h *bool) *Node{
+//func search(t *Node, word int, h *bool) *Node{
 	//fmt.Println(t)
 	//showMe(t, 0)
 	//fmt.Println(*h)
@@ -252,8 +255,8 @@ func showMe(t *Node, h int){
 	format += "---["
 	h++
 	showMe(t.Right, h)
-	fmt.Printf(format + "VALUE: %v : COUNT: %v\n", t.Value, t.Counter)
-	//fmt.Printf(format + "VALUE: %v\n", t.Value)
+	//fmt.Printf(format + "VALUE: %v : COUNT: %v\n", t.Value, t.Counter)
+	fmt.Printf(format + "VALUE: %v\n", t.Value)
 	showMe(t.Left, h)
 }
 
@@ -279,11 +282,11 @@ func main() {
 	//array := []int{4,5,7,2,1,3,6,45, 23,2,11,3,4, 4, 4, 4,1,23,44,5,3,8,9,2121,323,4}
 	//array := []int{4,5,10,2,1,3,6,7,7,8}
 //	array := []int{4,5,7, 2, 1, 3, 6}
-	array := []int{4,5,10,2,1,3,6,7,7}
+	//array := []int{4,5,10,2,1,3,6,7,7}
 	//array := []int{4,5,10,2,1,3,6,7,7, 8}
 	//array := []int{4,3,2, 1,}
 	//array := []int{8, 4, 10, 2, 6 ,1 ,3 ,5, 7 ,9}
-	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "tyu", "wer", "lol","wer", "qw"}
+	array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "tyu", "wer", "lol","wer", "qw"}
 	for _, val := range array{
 		//fmt.Println(val)
 		h := false
