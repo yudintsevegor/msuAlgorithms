@@ -12,9 +12,9 @@ To plot graphics:
 
 Find top-10 words in the text.
 
-> #run BTree\n
+> #run BTree  
 > go run auxiliary.go Btree.go
 
-> #run AVL\n
+> #run AVL  
 > go run auxiliary.go AVLtree.go
 
