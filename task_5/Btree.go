@@ -23,24 +23,29 @@ func newNode(val string) *Node{
 }
 
 func insert(t *Node, word string) *Node{
+	if length == 0 {
+		length++
+		mapLengthCompare[length] = compare
+		compare = 0
+		return newNode(word)
+	}
+
 	if t == nil {
 		length++
 		mapLengthCompare[length] = compare
 		compare = 0
 		return newNode(word)
 	}
+	compare++
 	switch strings.Compare(word, t.Value){
 	case 1:
-		compare++
 		t.Right = insert(t.Right, word)
 		return t
 	case -1:
-		compare++
 		t.Left = insert(t.Left, word)
 		return t
 	default: //==0
 		t.Counter++
-		compare++
 		mapLengthCompare[length] = compare
 		compare = 0
 		return t

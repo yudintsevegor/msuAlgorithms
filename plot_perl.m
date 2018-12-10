@@ -244,18 +244,34 @@ elseif (mode == 4)
 	print(fig, strcat(str_4, 'positionsUNIQ'), '-dpng');
 
 elseif (mode == 5)
+    
+    x = 0:1:42001;
+	y = log(x)/log(2);
+    
 	X = dlmread(strcat(str_5, 'lengthBT.txt'));
 	Y_1 = dlmread(strcat(str_5, 'compareBT.txt'));
 	Y_2 = dlmread(strcat(str_5, 'compareAVL.txt'));
 
 	fig = figure(1);
 	plot(X, Y_1, 'o');
-    fig = figure(2);
-    plot(X, Y_2, 'o');
-	title('The dependence of number of iterations on the size of Tree')
+    hold on
+    plot(x, y, 'LineWidth', 5);
+    hold on
+    title('The dependence of number of iterations on the size of BTree')
 	xlabel('Size of tree')
 	ylabel('Number of iterations(compare)')
 	grid on;
-	print(fig, strcat(str_5, 'compareBandAVLtree'), '-dpng');
+	print(fig, strcat(str_5, 'compareBtree'), '-dpng');
+    
+    fig = figure(2);
+    plot(X, Y_2, 'o');
+    hold on
+    plot(x, y, 'LineWidth', 5);
+    hold on
+	title('The dependence of number of iterations on the size of AVLTree')
+	xlabel('Size of tree')
+	ylabel('Number of iterations(compare)')
+	grid on;
+	print(fig, strcat(str_5, 'compareAVLtree'), '-dpng');
 
 end
