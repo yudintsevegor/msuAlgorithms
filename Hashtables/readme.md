@@ -7,6 +7,6 @@ Use Text ~1Mb
 
 To plot graphics:
 
-> 1. Dependence Quantity of collisions(compares and swaps) on occupancy rate
+> 1. Dependence Quantity of collisions on occupancy rate
 
 
