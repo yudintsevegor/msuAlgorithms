@@ -1,10 +1,10 @@
 function plot_perl(mode)
-
-	str_1 = './task_1/points/';
-	str_2 = './task_2/points/';
-	str_3 = './task_3/points/';
-	str_4 = './task_4/points/';
-	str_5 = './task_5/points/';
+    
+	str_1 = './StringSearch/points/';
+	str_2 = './SortI/points/';
+	str_3 = './SortII/points/';
+	str_4 = './Recursion/points/';
+	str_5 = './Trees/points/';
 
 if (mode == 1)
 	X = dlmread(strcat(str_1, 'fix_text_X.txt'));
@@ -245,8 +245,11 @@ elseif (mode == 4)
 
 elseif (mode == 5)
     
-   	x = 0:1:42001;
-	y = log(x)/log(2);
+   	xB = 0:1:21109;
+	yB = 2.3*log(xB)/log(2);
+    
+    xAVL = 0:1:21094;
+	yAVL = 1.2*log(xAVL)/log(2);
     
 	X_1 = dlmread(strcat(str_5, 'lengthBT.txt'));
 	X_2 = dlmread(strcat(str_5, 'lengthAVL.txt'));
@@ -255,20 +258,20 @@ elseif (mode == 5)
 
 	fig = figure(1);
 	plot(X_1, Y_1, 'o');
-    	hold on
-    	plot(x, y, 'LineWidth', 5);
-    	hold on
-    	title('The dependence of number of iterations on the size of BTree')
+    hold on
+    plot(xB, yB, 'LineWidth', 5);
+    hold on
+    title('The dependence of number of iterations on the size of BTree')
 	xlabel('Size of tree')
 	ylabel('Number of iterations(compare)')
 	grid on;
 	print(fig, strcat(str_5,'../pic/','compareBtree'), '-dpng');
     
-    	fig = figure(2);
-    	plot(X_2, Y_2, 'o');
-    	hold on
-    	plot(x, y, 'LineWidth', 5);
-    	hold on
+    fig = figure(2);
+    plot(X_2, Y_2, 'o');
+    hold on
+    plot(xAVL, yAVL, 'LineWidth', 5);
+    hold on
 	title('The dependence of number of iterations on the size of AVLTree')
 	xlabel('Size of tree')
 	ylabel('Number of iterations(compare)')

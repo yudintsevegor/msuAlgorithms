@@ -64,7 +64,11 @@ func main() {
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	scanner.Split(bufio.ScanWords)
 	for scanner.Scan() {
-		tree = insert(tree, scanner.Text())
+		word := scanner.Text()
+		//if word == "" {
+		//	continue
+		//}
+		tree = insert(tree, word)
 	}
 	/**
 	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}
@@ -105,3 +109,4 @@ func main() {
 		fileY.WriteString(compare + "\n")
 	}
 }
+

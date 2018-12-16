@@ -162,8 +162,15 @@ func main() {
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	scanner.Split(bufio.ScanWords)
 	for scanner.Scan() {
+		word := scanner.Text()
+		newWord, isOk := TextParsing(word)
+		if !isOk{
+			continue
+		}
+		newWord = strings.ToLower(newWord)
+
 		h := false
-		tree = search(tree, scanner.Text(), &h)
+		tree = search(tree, newWord, &h)
 	}
 	/**/
 
