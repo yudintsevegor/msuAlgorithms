@@ -120,7 +120,7 @@ public:
 	void insert(string s, long long n) {
 
 		long p = n % h_size;
-		if (a[p].insert(s)==0) n_zap++;
+		if (a[p].insert(s) == 0) n_zap++;
 		else n_col++;
 		
 	}

@@ -67,7 +67,7 @@ func main() {
 		/**/
 		word := scanner.Text()
 		newWord, isOk := TextParsing(word)
-		if !isOk{
+		if !isOk {
 			continue
 		}
 		newWord = strings.ToLower(newWord)
