@@ -1,10 +1,21 @@
-function plot_perl(mode)
+%{
+    mode:
+            1 - StringSearch
+            2 - Sort I
+            3 - Sort II
+            4 - Recursion
+            5 - Trees
+            6 - Hashtables
+%}
+
+function plotGraphics(mode)
     
 	str_1 = './StringSearch/points/';
 	str_2 = './SortI/points/';
 	str_3 = './SortII/points/';
 	str_4 = './Recursion/points/';
 	str_5 = './Trees/points/';
+    str_6 = './Hashtables/points/';
 
 if (mode == 1)
 	X = dlmread(strcat(str_1, 'fix_text_X.txt'));
@@ -277,5 +288,22 @@ elseif (mode == 5)
 	ylabel('Number of iterations(compare)')
 	grid on;
 	print(fig, strcat(str_5, '../pic/', 'compareAVLtree'), '-dpng');
+
+    elseif (mode == 6)
+   
+	Y_1 = dlmread(strcat(str_6, 'collisionMFC.txt'));
+	X_1 = dlmread(strcat(str_6, 'occupancyMFC.txt'));
+      
+    Y_2 = dlmread(strcat(str_6, 'collisionMD5.txt'));
+	X_2 = dlmread(strcat(str_6, 'occupancyMD5.txt'));
+  
+    fig = figure(1);
+	plot(X_1, Y_1,'o', X_2, Y_2, 'o');
+    title('The dependence of collisions on occupancy of Hashtable')
+	xlabel('Occupancy of HashTable')
+	ylabel('Collisions')
+	grid on;
+	print(fig, strcat(str_6,'../pic/','collisionsOccupancyMD5andMFC'), '-dpng');
+    legend('MFC','MD5')
 
 end

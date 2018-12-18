@@ -64,7 +64,6 @@ func main() {
 	scanner := bufio.NewScanner(strings.NewReader(content))
 	scanner.Split(bufio.ScanWords)
 	for scanner.Scan() {
-		/**/
 		word := scanner.Text()
 		newWord, isOk := TextParsing(word)
 		if !isOk {
@@ -72,7 +71,6 @@ func main() {
 		}
 		newWord = strings.ToLower(newWord)
 		tree = insert(tree, newWord)
-		/**/
 	}
 	/**
 	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}

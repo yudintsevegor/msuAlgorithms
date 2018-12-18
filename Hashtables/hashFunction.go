@@ -1,34 +1,45 @@
 package main
 
 import (
+	"bufio"
 	"container/list"
 	"crypto/md5"
 	"fmt"
 	"io"
-	_ "reflect"
+	"io/ioutil"
+	"os"
 	"strconv"
 	"strings"
 )
 
 const (
-	N = 20000
+	N = 6599
+	//N = 8009
+	//N = 5003
+	//N = 10007
 )
 
-var hTableMD5 = make([]list.List, N)
+type CollisionOccupancy struct {
+	Collision int
+	Occupancy float64
+}
 
-//var hTableMD5 [N]list.List
+var collOccMFCSlice = make([]CollisionOccupancy, 1)
+var collOccMD5Slice = make([]CollisionOccupancy, 1)
+
 var hTableMFC = make([]list.List, N)
-
-//var hTableMFC [N]list.List
+var hTableMD5 = make([]list.List, N)
 
 var collisionsMFC int
 var collisionsMD5 int
-var notEmptyMFC int
-var notEmptyMD5 int
+var notEmptyMFC float64
+var notEmptyMD5 float64
+var occupancyMFC float64
+var occupancyMD5 float64
 
 func cutHexValue(str string) string {
 	tmp := strings.Split(str, "")
-	outString := strings.Join(tmp[:len(tmp)/2], "")
+	outString := strings.Join(tmp[:len(tmp)/4], "")
 
 	return outString
 }
@@ -54,53 +65,125 @@ func MFCHash(word string) uint64 {
 	return uint64(nHash)
 }
 
-func insert(word string, index uint64) {
+func insertIntoScroll(word string, element *list.Element, scroll list.List) {
+	if element.Next() == nil || element.Value == nil {
+		var wordCounter = make(map[string]int, 1)
+		wordCounter[word] = 1
+		scroll.PushBack(wordCounter)
+		return
+	}
+	tmpMap := element.Value.(map[string]int)
+	if _, ok := tmpMap[word]; ok {
+		tmpMap[word]++
+		return
+	}
 
+	insertIntoScroll(word, element.Next(), scroll)
+}
+
+func insert(word string, index uint64, hashTable []list.List) int {
+	var wordCounter = make(map[string]int, 1)
+	if hashTable[index].Front() == nil {
+		wordCounter[word] = 1
+		hashTable[index].PushBack(wordCounter)
+		return 0
+	}
+	element := hashTable[index].Front()
+	insertIntoScroll(word, element, hashTable[index])
+
+	return 1
 }
 
 func main() {
-	/*
-		txt := "EngText.txt"
-		file, err := ioutil.ReadFile(txt)
-		if err != nil {
-			fmt.Println(err)
-		}
-		content := string(file)
-		scanner := bufio.NewScanner(strings.NewReader(content))
-		scanner.Split(bufio.ScanWords)
-		for scanner.Scan() {
-			word := scanner.Text()
-			newWord, isOk := TextParsing(word)
-			if !isOk{
-				continue
-			}
-			newWord = strings.ToLower(newWord)
-			tree = insert(tree, newWord)
-		}
-		/**/
-	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}
-	array := []string{"ledas", "lol", "ds"}
-	var lst list.List
-	for _, value := range array {
-		fmt.Println("VALUE: ", value)
-
-		res := MFCHash(value)
-		fmt.Println("RESULT FROM MFC: ", res)
-
-		res_1 := MD5Hash(value)
-		fmt.Println("RESULT FROM MD5 :", res_1)
-
-		lst.PushBack(value)
-		hTableMFC[res%N] = lst
-		fmt.Println(res % N)
-		//hTableMD5[res_1] = lst
-		//hTableMFC = append(hTableMFC, lst)
+	/**/
+	txt := "EngText.txt"
+	file, err := ioutil.ReadFile(txt)
+	if err != nil {
+		fmt.Println(err)
 	}
-	//fmt.Println(hTableMFC[1].Front().Next().Value)
-	//fmt.Println(hTableMFC[1].Back().Value)
-	fmt.Println(hTableMFC[1321])
-	fmt.Println(hTableMFC[0])
-	//for i := 0; i < reflect.ValueOf(hTable[0]).NumField(); i++ {
-	//	fmt.Println(reflect.ValueOf(hTable[0]).Type().Field(i).Name)
-	//}
+	content := string(file)
+	scanner := bufio.NewScanner(strings.NewReader(content))
+	scanner.Split(bufio.ScanWords)
+
+	count := 0
+	for scanner.Scan() {
+		word := scanner.Text()
+		newWord, isOk := TextParsing(word)
+		if !isOk {
+			continue
+		}
+		newWord = strings.ToLower(newWord)
+
+		var colOccMFC CollisionOccupancy
+		var colOccMD5 CollisionOccupancy
+		resMFC := MFCHash(newWord)
+		resMD5 := MD5Hash(word)
+
+		isOkMFC := insert(newWord, resMFC%N, hTableMFC)
+		if isOkMFC == 1 {
+			collisionsMFC++
+		} else {
+			notEmptyMFC++
+			occupancyMFC = notEmptyMFC / N
+		}
+		if count%1000 == 0 {
+			colOccMFC = CollisionOccupancy{collisionsMFC, occupancyMFC}
+			collOccMFCSlice = append(collOccMFCSlice, colOccMFC)
+		}
+
+		isOkMD5 := insert(word, resMD5%N, hTableMD5)
+		if isOkMD5 == 1 {
+			collisionsMD5++
+		} else {
+			notEmptyMD5++
+			occupancyMD5 = notEmptyMD5 / N
+		}
+		if count%1000 == 0 {
+			colOccMD5 = CollisionOccupancy{collisionsMD5, occupancyMD5}
+			collOccMD5Slice = append(collOccMD5Slice, colOccMD5)
+		}
+		count++
+	}
+
+	X1 := "./points/collisionMFC.txt"
+	Y1 := "./points/occupancyMFC.txt"
+
+	X2 := "./points/collisionMD5.txt"
+	Y2 := "./points/occupancyMD5.txt"
+
+	fileX1, err := os.Create(X1)
+	defer fileX1.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fileY1, err := os.Create(Y1)
+	defer fileY1.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fileX2, err := os.Create(X2)
+	defer fileX2.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fileY2, err := os.Create(Y2)
+	defer fileY2.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	for _, value := range collOccMFCSlice {
+		collision := strconv.Itoa(value.Collision)
+		occupancy := fmt.Sprintf("%f", value.Occupancy)
+		fileX1.WriteString(collision + "\n")
+		fileY1.WriteString(occupancy + "\n")
+	}
+
+	for _, value := range collOccMD5Slice {
+		collision := strconv.Itoa(value.Collision)
+		occupancy := fmt.Sprintf("%f", value.Occupancy)
+		fileX2.WriteString(collision + "\n")
+		fileY2.WriteString(occupancy + "\n")
+	}
 }

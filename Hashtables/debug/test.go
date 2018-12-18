@@ -5,6 +5,7 @@ import (
 	"io"
 	//"encoding/hex"
 	"fmt"
+	"reflect"
 	"strconv"
 	"strings"
 )
@@ -50,4 +51,11 @@ func main() {
 	res := MFCHash(test)
 	fmt.Println(res)
 	fmt.Println(res % 20000)
+	var n  float64
+	var m  float64
+	n = 10.12
+	m = 20.11
+	resnm := fmt.Sprintf("%f",n/m)
+	fmt.Println(resnm)
+	fmt.Println(reflect.TypeOf(resnm))
 }

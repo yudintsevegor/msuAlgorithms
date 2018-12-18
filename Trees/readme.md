@@ -12,8 +12,8 @@ To plot graphics:
 
 Find top-10 words in the text.
 
-> #run BTree  
-> go run auxiliary.go Btree.go
+> #run BinaryTree  
+> go run auxiliary.go Binarytree.go
 
 > #run AVL  
 > go run auxiliary.go AVLtree.go

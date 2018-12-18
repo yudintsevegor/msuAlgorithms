@@ -74,7 +74,7 @@ public:
 		{
 			Node* current = this->head;
 			Node* last;
-			while ((current != nullptr) && (current->data.first != s))
+			while ((current != nullptr) && (current->data.first !=  s))
 			{
 				last = current;
 				current = current->pNext;

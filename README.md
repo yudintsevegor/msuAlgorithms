@@ -6,7 +6,7 @@ Structure
 ===========
 
 1. ./libs
-2. dirs with tasks( task_i, where i from 1 to ...)
-3. plot_perl 
+2. dirs with tasks
+3. plotGraphics 
 
 Description: soon.
