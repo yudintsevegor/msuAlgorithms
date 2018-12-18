@@ -149,11 +149,11 @@ func search(t *Node, word string, h *bool) *Node {
 
 func main() {
 	var tree *Node
-	/**/
+
 	txt := "text_eng.txt"
 	X := "./points/lengthAVL.txt"
 	Y := "./points/compareAVL.txt"
-	//txt := "text.txt"
+
 	file, err := ioutil.ReadFile(txt)
 	if err != nil {
 		fmt.Println(err)
@@ -172,23 +172,14 @@ func main() {
 		h := false
 		tree = search(tree, newWord, &h)
 	}
-	/**/
-
-	//array := []string{"ledas", "lol","ds","ds", "ledas", "safs","wefwef", "ds", "kek", "arbi", "shrek", "shrek", "tyu", "shrek", "shrek", "tyu", "wer", "lol","wer", "qw"}
-	/*for _, val := range array{
-		h := false
-		tree = search(tree, val, &h)
-	}
-	/**/
 	findTop(tree)
 	//showMe(tree, 0)
-	//fmt.Println(mapLengthCompare)
 
 	sortedTopWords := sortStructByValue(topWords)
 	for ind, val := range sortedTopWords {
 		fmt.Printf("IND: %v, WORD: %v, COUNT: %v\n", ind, val.Key, val.Value)
 	}
-	/**/
+
 	fileX, err := os.Create(X)
 	defer fileX.Close()
 	if err != nil {
@@ -199,7 +190,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	/**/
+
 	sortedLengthCompare := sortStructByKey(mapLengthCompare)
 
 	for _, value := range sortedLengthCompare {
