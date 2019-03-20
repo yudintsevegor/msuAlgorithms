@@ -3,8 +3,8 @@ In this repository i storage homeworks from course `Non-numerical programming al
 
 # Content of repository.
 There are tasks on topics such that:
-    - Hashtables
-	- Recursion
-	- Sorting
-	- Substring searching
-	- Trees
+- Hashtables
+- Recursion
+- Sorting
+- Substring searching
+- Trees
