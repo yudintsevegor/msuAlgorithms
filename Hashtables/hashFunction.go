@@ -39,7 +39,7 @@ var occupancyMD5 float64
 
 func cutHexValue(str string) string {
 	tmp := strings.Split(str, "")
-	outString := strings.Join(tmp[:len(tmp)/4], "")
+	outString := strings.Join(tmp[:len(tmp)/2], "")
 
 	return outString
 }
@@ -86,6 +86,7 @@ func insert(word string, index uint64, hashTable []list.List) int {
 	if hashTable[index].Front() == nil {
 		wordCounter[word] = 1
 		hashTable[index].PushBack(wordCounter)
+
 		return 0
 	}
 	element := hashTable[index].Front()
@@ -187,3 +188,26 @@ func main() {
 		fileY2.WriteString(occupancy + "\n")
 	}
 }
+
+
+/*
+var B1 = 4*8
+var TQ = int((B1*3)/4)
+var OE = int(B1/8)
+var HB ~((unsigned)(~NULL)>>OE)
+var HB = uint64>>OE
+//
+
+func PJWHash(str string) uint64{
+	var hv, i uint64
+	letters := strings.Split(word, "")
+	for _, value := range letters {
+		hv = (hv << OE) + []rune(value)[0];
+		if ((i == hv) && (HB != 0))
+			hv = (hv ^ (i >> TQ)) & ^HB;
+	}
+
+	return hv
+}
+*/
+

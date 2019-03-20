@@ -1,12 +1,10 @@
-# msuAlgorithms
+# Algorithms
+In this repository i storage homeworks from course `Non-numerical programming algorithms`. Topics such as `Substring searching` and `Sorting` implemented with `Perl`, other: with `Golang`. Plorring implemented with `Matlab`.
 
-Some tasks from course "Non-numerical programming algorithms", which realised using Perl(tasks: 1 to 3) and Golang(tasks: 4 to ...) and matlab(for plotting).
-
-Structure
-===========
-
-1. ./libs
-2. dirs with tasks
-3. plotGraphics 
-
-Description: soon.
+# Content of repository.
+There are tasks on topics such that:
+    - Hashtables
+	- Recursion
+	- Sorting
+	- Substring searching
+	- Trees
